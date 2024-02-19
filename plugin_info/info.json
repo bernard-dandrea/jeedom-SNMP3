@@ -1,0 +1,40 @@
+{
+	"id" : "SNMP3",
+	"name" : "SNMP3",
+	"specialAttributes" : {
+		"object" : {
+
+		},
+		"user" : {
+		}
+	},
+	"description" : {
+		"fr_FR": "Plugin permettant de s'interfacer avec SNMP"
+	},
+	"licence" : "AGPL",
+	"author" : "Bernard Dandrea",
+	"require" : "4.2.0",
+	"category" : "devicecommunication",
+	"hasDependency" : true,
+	"hasOwnDeamon" : false,
+	"maxDependancyInstallTime" : 0,
+	"changelog" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/changelog",
+	"documentation" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/",
+	"changelog_beta" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/changelog",
+	"documentation_beta" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/index",
+	"link" : {
+	},
+	"language": [
+		"fr_FR"
+	],
+	"compatibility": [
+		"miniplus",
+		"smart",
+		"rpi",
+		"docker",
+		"diy",
+		"mobile",
+		"v4",
+		"atlas"
+	]
+}

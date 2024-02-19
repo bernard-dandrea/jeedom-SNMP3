@@ -1,0 +1,11 @@
+{
+  "apt" : {
+    "php-snmp" : {},
+    "php-ssh2" : {},
+    "snmp" : {},
+    "snmp-mibs-downloader" : {}
+  },
+  "post-install" : {
+    "restart_apache" : true
+  }
+}

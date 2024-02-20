@@ -1,6 +1,6 @@
 # Plugin SNMP3
 
-Plugin permettant de s'interfacer avec les dispositifs supportant le protocol SNMP. 
+Plugin permettant de lire et écrire les OIDs des dispositifs supportant le protocol SNMP. 
 
 SNMP est l'un des protocoles largement acceptés pour gérer et analyser les éléments du réseau. La plupart des éléments de réseau de qualité professionnelle sont fournis avec un agent SNMP intégré.
 

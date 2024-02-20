@@ -1,5 +1,4 @@
-
- # Plugin SNMP3
+# Plugin SNMP3
 
 Plugin permettant de s'interfacer avec les dispositifs supportant le protocol SNMP. 
 
@@ -7,7 +6,7 @@ SNMP est l'un des protocoles largement acceptés pour gérer et analyser les él
 
 Le plugin utilise le package php-snmp (voir <https://www.php.net/manual/fr/book.snmp.php>) qui est un wrapper de la bibliothèque Net-SNMP (voir <http://www.net-snmp.org>). Le plugin permet d'interroger (commande get) et de mettre à jour (commande set) les OIDs qui le supportent.
 
- # AVERTISSEMENT
+# AVERTISSEMENT
 
 Ce plugin s'adresse à des personnes qui sont familières avec le protocole. 
 

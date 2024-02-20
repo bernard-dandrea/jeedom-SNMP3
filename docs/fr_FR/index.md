@@ -54,13 +54,13 @@ Si vous rencontrez des difficultés dans la mise en oeuvre des MIBs, vous pouvez
 
 La configuration des équipements est accessible à partir du menu du plugin (menu Plugins, Objets Connectés puis SNMP3). 
 
-Cliquer sur Ajouter pour définir le dispositif SNMP3.
+Cliquer sur Ajouter pour définir le dispositif SNMP.
 
 ![SNMP3_Equipement](../images/SNMP3_Equipement.png)
 
-Indiquer la configuration du SNMP3 :
+Indiquer la configuration du dispositif SNMP:
 
--   **Nom** : nom du dispositif SNMP3
+-   **Nom** : nom du dispositif SNMP
 -   **Objet parent** : indique l’objet parent auquel appartient l’équipement
 -   **Catégorie** : indique la catégorie Jeedom de l’équipement
 -   **Activer** : permet de rendre l'équipement actif
@@ -69,9 +69,9 @@ Indiquer la configuration du SNMP3 :
 -   **Paramètres de sécurité** : voir <https://www.php.net/manual/fr/snmp.setsecurity.php>
 -   **Icone** : permet de sélectionner un type d'icône pour l'équipement dans le paneau de configuration
 
-Il est possible de personaliser une icone de type perso en ajoutant l'image correspondante (par exemple perso1.png pour l'icone perso1) dans le répertoire plugin_info du plugin.
+Il est possible de personnaliser une icone spécifique en ajoutant l'image correspondante (par exemple perso1.png pour l'icone perso1) dans le répertoire plugin_info du plugin.
 
-Le bouton **Tester la connexion au SNMP3** permet de tester si les paramètres de connexion sont corrects (penser à sauvegarder la configuration avant de cliquer sur le bouton).
+Le bouton **Tester la connexion au SNMP3** permet de tester si les paramètres de connexion sont corrects (penser à activer l'équipement et sauvegarder la configuration avant de cliquer sur le bouton).
 
 # Commandes associées aux équipements
 
@@ -79,14 +79,14 @@ Le bouton **Tester la connexion au SNMP3** permet de tester si les paramètres d
 
 Par défaut, deux commandes sont créées :
 
-- Dernier Refresh : commande info indiquant quand la dernière information du dispositif SNMP3 a été mise à jour
+- Dernier Refresh : commande info indiquant quand la dernière information du dispositif SNMP a été mise à jour
 - Refresh: commande action permettant de mettre à jour tous les OIDs pour lesquels l'update est activé
 
 Les boutons suivants sont disponibles :
 
 - Importer un OID : permet de créer une commande info pour un OID
-- Ajouter une commande refresh : permet de créer une commande action pour forcer la récupération de la valeur du paramètre
-- Ajouter une action : permet de créer une commande action pour modifier la valeur du paramètre (lorsque c'est permis par le dispositif SNMP)
+- Ajouter une commande refresh : permet de créer une commande action pour forcer la récupération de la valeur de l'OID
+- Ajouter une action : permet de créer une commande action pour modifier la valeur de l'OID (lorsque c'est permis par le dispositif SNMP)
 
 # Analyse des champs de la commande
 
@@ -99,7 +99,7 @@ Pour chaque commande relative à un OID, on trouve en plus des champs habituels 
 - la coche update qui permet de demander ou non la mise à jour de l'OID
 - le champ scan qui indique la fréquence de mise à jour de l'OID
 
-Pour les commandes permettant la mise à jour de l'OID, le sous-type de la commande action détermine le format de la valeur transmise au dispositif SNMP. Lorsque le type est 'Message', le titre donne le format et le contenu du message donne la valeur (seule la première ligne est transmise). Voir <https://www.php.net/manual/fr/function.snmpset.php> pour voir les formats supportés.
+Pour les commandes permettant la mise à jour de l'OID, le sous-type de la commande action détermine le format de la valeur transmise au dispositif SNMP. Lorsque le sous-type est 'Message', le titre donne le format et le contenu du message donne la valeur (seule la première ligne est transmise). Voir <https://www.php.net/manual/fr/function.snmpset.php> pour voir les formats supportés.
 
 # Widget
 

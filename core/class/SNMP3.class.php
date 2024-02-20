@@ -138,7 +138,7 @@ class SNMP3 extends eqLogic
                     $error = 'Cannot load mib ' . $mib_file;
                     log::add('SNMP3', 'error', $error);
                 } else {
-                    log::add('SNMP3', 'info', 'MIB ' . $mib_file . ' loaded');
+                    log::add('SNMP3', 'debug', 'MIB ' . $mib_file . ' loaded');
                 }
             }
         }

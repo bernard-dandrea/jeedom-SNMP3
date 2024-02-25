@@ -106,3 +106,9 @@ Pour les commandes permettant la mise à jour de l'OID, le sous-type de la comma
 ![SNMP3_Widget](../images/SNMP3_Widget.png)
 
 Voici un exemple de widget. On peut modifier le nom des commandes pour que ce soit plus parlant. 
+
+# Avis
+
+![SNMP3_avis](../images/SNMP3_avis.png)
+
+Si vous appréciez ce plugin, merci de laisser une évaluation et un commentaire sur le Jeedom market, ça fait toujours plaisir: <https://jeedom.com/market/index.php?v=d&p=market_display&id=4484#>

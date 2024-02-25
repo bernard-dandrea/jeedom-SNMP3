@@ -44,11 +44,11 @@ On peut désigner les OIDs par leur code numérique par exemple .1.3.6.1.4.1.657
 
 Lors de l'installation du package php-snmp, un certain nombre de MIBs sont installés (normalement dans le répertoire /usr/share/snmp/mibs) et peuvent être utilisés directement.
 
-Le plugin permet d'installer des MIBs spécifiques en plaçant les fichiers correspondants, par exemple SYNOLOGY-SYSTEM-MIB.txt, dans le répertoire plugins\SNMP3\data\mibs. 
+Le plugin permet d'installer des MIBs spécifiques en plaçant les fichiers correspondants, par exemple SYNOLOGY-SYSTEM-MIB.txt, dans le répertoire plugins/SNMP3/data/mibs. 
 
-Vous pouvez également copier les fichhiers dans le répertoire commun (en général /usr/share/snmp/mibs). Dans ce cas, il faudra refaire la manipulation en cas de restauration de Jeedom.
+Vous pouvez également copier les fichiers dans le répertoire commun (en général /usr/share/snmp/mibs). Noter qu'il faudra refaire la manipulation en cas de restauration de Jeedom.
 
-Si vous rencontrez des difficultés dans la mise en oeuvre des MIBs, vous pouvez les tester avec la commande snmptranslate (voir <https://net-snmp.sourceforge.io/tutorial/tutorial-5/commands/snmptranslate.html>). Attention, dans ce cas les MIBs dans le répertoire plugins\SNMP3\data\mibs ne sont pas pris en compte. 
+Si vous rencontrez des difficultés dans la mise en oeuvre des MIBs, vous pouvez les tester avec la commande snmptranslate (voir <https://net-snmp.sourceforge.io/tutorial/tutorial-5/commands/snmptranslate.html>). Attention, dans ce cas les MIBs dans le répertoire plugins/SNMP3/data/mibs ne sont pas pris en compte. 
 
 # Configuration des équipements
 

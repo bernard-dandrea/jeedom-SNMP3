@@ -27,6 +27,7 @@ class SNMP3 extends eqLogic
     private static $_snmp_error = null;
     public static $_snmp_error_message = null;
 
+
     //snmpget -v 3 -n "" -u admin_snmp_2024 -a MD5 -A "Camille" -x DES -X "Camille" -l authPriv 192.168.1.5 .1.3.6.1.4.1.6574.1.5.1.0
 
     public function test_connexion()
@@ -48,9 +49,7 @@ class SNMP3 extends eqLogic
             $session = new SNMP(
                 $version,
                 $this->getConfiguration('localhost'),
-                $community,
-                $this->getConfiguration('timeout'),
-                $this->getConfiguration('retries')
+                $community
             );
         } catch (SNMPException $e) {
             $error = 'SNMP session creation error ' . $e->getCode() . ' ' . $e->getMessage();
@@ -157,14 +156,24 @@ class SNMP3 extends eqLogic
         } else {
             $community = $_eqLogic->getConfiguration('community');
         }
+        $timeout = $_eqLogic->getConfiguration('timeout', '-1');
+        if (is_numeric($timeout)) {
+            if ($timeout > 0) {
+                $timeout = $timeout * 1000; // ms ->pico secondes
+            } else {
+                $timeout = -1;
+            }
+        } else {
+            $timeout = -1;
+        }
 
         try {
             self::$_session = new SNMP(
                 $version,
                 $_eqLogic->getConfiguration('localhost'),
                 $community,
-                $_eqLogic->getConfiguration('timeout'),
-                $_eqLogic->getConfiguration('retries')
+                $timeout,
+                0  // retry géré par le programme
             );
         } catch (SNMPException $e) {
             $error = 'SNMP session creation error ' . $e->getCode() . ' ' . $e->getMessage();
@@ -216,7 +225,7 @@ class SNMP3 extends eqLogic
         }
     }
 
-    public static function getOID($_oid)
+    public static function getOID($_oid, $_retry = 1)
     {
         log::add('SNMP3', 'debug', __('getOID ', __FILE__) . ' ' . $_oid);
         self::$_snmp_error = true;
@@ -226,12 +235,23 @@ class SNMP3 extends eqLogic
             log::add('SNMP3', 'error', self::$_snmp_error_message);
             return false;
         }
-        try {
-            $result = self::$_session->get($_oid);
-        } catch (SNMPException $e) {
-            self::$_snmp_error_message = 'Function get: error (exception) ' . $e->getCode() . ' ' . $e->getMessage();
-            log::add('SNMP3', 'error', self::$_snmp_error_message);
-            return false;
+
+        $essai = 0;
+        while ($essai < $_retry) {
+            try {
+                $result = self::$_session->get($_oid);
+            } catch (SNMPException $e) {
+                self::$_snmp_error_message = 'Function get: error (exception) ' . $e->getCode() . ' ' . $e->getMessage();
+                log::add('SNMP3', 'error', self::$_snmp_error_message);
+                return false;
+            }
+            if (self::$_session->getErrno() == '0') {
+                break;
+            }
+            $essai = $essai + 1;
+            if ($essai < $_retry) {
+                log::add('SNMP3', 'warning', 'Function get: error ' . self::$_session->getErrno() . ' '  . self::$_session->getError() . ' -> nouvel essai');
+            }
         }
 
         if (self::$_session->getErrno()  != '0') {
@@ -477,7 +497,7 @@ class SNMP3 extends eqLogic
             $this->setConfiguration('timeout', '-1');
         }
         if ($this->getConfiguration('retries', '') == "") {
-            $this->setConfiguration('retries', '-1');
+            $this->setConfiguration('retries', '3');
         }
     }
 
@@ -594,10 +614,18 @@ class SNMP3 extends eqLogic
     {
         log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' cron ' . $_cron);
         if (SNMP3::openSession($_eqLogic)) {
+            $retry = $_eqLogic->getConfiguration('retries');
+            if (is_numeric($retry) == false) {
+                $retry = 1;
+            } else {
+                if ($retry <= 0) {
+                    $retry = 1;
+                }
+            }
             $_eqLogic_refresh_cmd = $_eqLogic->getCmd(null, 'updatetime');
             foreach ($_eqLogic->getCmd() as $cmd) {
                 if ($cmd->getConfiguration('internal_type') == 'OID' && $cmd->getConfiguration('isCollected') == 1 && ($cmd->getConfiguration('cron') == $_cron || $_cron == 'refresh')) {
-                    if ($_eqLogic->refresh_info_cmd($cmd) == true) {
+                    if ($_eqLogic->refresh_info_cmd($cmd, $retry) == true) {
                         $_eqLogic_refresh_cmd->event(date("d/m/Y H:i", (time())));
                     }
                 }
@@ -606,12 +634,12 @@ class SNMP3 extends eqLogic
         }
     }
 
-    function refresh_info_cmd($_cmd)
+    function refresh_info_cmd($_cmd, $_retry)
     {
         log::add('SNMP3', 'debug', 'Read OID ' . $_cmd->getLogicalId() . ' ' . $_cmd->getName());
         $_oid = $_cmd->getLogicalId();
         // lit l'OID
-        $value = SNMP3::getOID($_oid);
+        $value = SNMP3::getOID($_oid, $_retry);
         if (self::$_snmp_error == false) {
             $_cmd->event($value);
             return true;

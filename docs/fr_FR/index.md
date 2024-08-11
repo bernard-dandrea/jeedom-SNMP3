@@ -67,6 +67,8 @@ Indiquer la configuration du dispositif SNMP:
 -   **Version** : version de SNMP
 -   **localhost** : IP de l’équipement
 -   **Paramètres de sécurité** : voir <https://www.php.net/manual/fr/snmp.setsecurity.php>
+-   **timeout** : durée maxi pendant laquelle on attend une réponse à la requete SNMP 
+-   **retries** : nombre de fois où la commande est soumise en cas d'échec (3 si le champ est vide)
 -   **Icone** : permet de sélectionner un type d'icône pour l'équipement dans le paneau de configuration
 
 Il est possible de personnaliser une icone spécifique en ajoutant l'image correspondante (par exemple perso1.png pour l'icone perso1) dans le répertoire plugin_info du plugin.

@@ -558,60 +558,61 @@ class SNMP3 extends eqLogic
 
 
 
-    public function cron()
+    public static function cron()
     {
         log::add('SNMP3', 'info', 'Lancement de cron');
         SNMP3::cron_update(__FUNCTION__);
     }
-    public function cron5()
+    public static function cron5()
     {
         sleep(5);
         log::add('SNMP3', 'info', 'Lancement de cron5');
         SNMP3::cron_update(__FUNCTION__);
     }
-    public function cron10()
+    public static function cron10()
     {
         sleep(10);
         log::add('SNMP3', 'info', 'Lancement de cron10');
         SNMP3::cron_update(__FUNCTION__);
     }
-    public function cron15()
+    public static function cron15()
     {
         sleep(15);
         log::add('SNMP3', 'info', 'Lancement de cron15');
         SNMP3::cron_update(__FUNCTION__);
     }
-    public function cron30()
+    public static function cron30()
     {
         sleep(20);
         log::add('SNMP3', 'info', 'Lancement de cron30');
         SNMP3::cron_update(__FUNCTION__);
     }
 
-    public function cronHourly()
+    public static function cronHourly()
     {
         sleep(25);
         log::add('SNMP3', 'info', 'Lancement de cronHourly');
         SNMP3::cron_update(__FUNCTION__);
     }
 
-    public function cronDaily()
+    public static function cronDaily()
     {
         sleep(30);
         log::add('SNMP3', 'info', 'Lancement de cronDaily');
         SNMP3::cron_update(__FUNCTION__);
     }
-    public function cron_update($_cron)
+    public static function cron_update($_cron)
     {
         foreach (eqLogic::byTypeAndSearchConfiguration('SNMP3', '"type":"SNMP3"') as $eqLogic) {
             if ($eqLogic->getIsEnable()) {
-                SNMP3::SNMP3_Update($eqLogic, $_cron);
+                $eqLogic->SNMP3_Update($eqLogic, $_cron);
             }
         }
     }
 
-    public function SNMP3_Update($_eqLogic, $_cron)
+    public function SNMP3_Update($_cron)
     {
+        $_eqLogic = $this;
         log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' cron ' . $_cron);
         if (SNMP3::openSession($_eqLogic)) {
             $retry = $_eqLogic->getConfiguration('retries');
@@ -725,7 +726,15 @@ class SNMP3Cmd extends cmd
                 $return = false;
             }
             if (SNMP3::openSession($eqLogic)) {
-                $return = $eqLogic->refresh_info_cmd($cmd);
+                $retry = $eqLogic->getConfiguration('retries');
+                if (is_numeric($retry) == false) {
+                    $retry = 1;
+                } else {
+                    if ($retry <= 0) {
+                        $retry = 1;
+                    }
+                }
+                $return = $eqLogic->refresh_info_cmd($cmd,$retry);
                 SNMP3::closeSession();
                 if ($return == false) {
                     $error = 'OID: ' . $oid . ' error ' . SNMP3::$_snmp_error_message;

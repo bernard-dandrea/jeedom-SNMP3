@@ -613,7 +613,7 @@ class SNMP3 extends eqLogic
     public function SNMP3_Update($_cron)
     {
         $_eqLogic = $this;
-        log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' cron ' . $_cron);
+        // log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' cron ' . $_cron);  // erreur sur utilisation variable $_cron
         if (SNMP3::openSession($_eqLogic)) {
             $retry = $_eqLogic->getConfiguration('retries');
             if (is_numeric($retry) == false) {
@@ -665,7 +665,7 @@ class SNMP3Cmd extends cmd
         // Refresh toutes les infos
         if ($this->getLogicalId() == 'refresh') {
             log::add('SNMP3', 'info', __('execute ', __FILE__) . '  refresh');
-            SNMP3::SNMP3_Update($eqLogic, 'refresh');
+            $eqLogic->SNMP3_Update($eqLogic, 'refresh');
             return true;
         }
 

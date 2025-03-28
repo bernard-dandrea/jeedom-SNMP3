@@ -164,6 +164,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     <div class="col-sm-6">
                       <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community"">
                     </div>
+                    <label class="col-sm-4 control-label">{{community RW}}</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community_rw"">
+                    </div>
                   </div>  
               </div>  
               

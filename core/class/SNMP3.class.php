@@ -143,7 +143,7 @@ class SNMP3 extends eqLogic
         }
     }
 
-    public static function openSession($_eqLogic)
+    public static function openSession($_eqLogic, $_mode = '')
     {
         // load MIBS
         SNMP3::loadMIBS();
@@ -155,6 +155,9 @@ class SNMP3 extends eqLogic
             $community = $_eqLogic->getConfiguration('security_name');
         } else {
             $community = $_eqLogic->getConfiguration('community');
+            if ($_mode == 'RW') {
+                $community = $_eqLogic->getConfiguration('community_rw', $community);
+            }
         }
         $timeout = $_eqLogic->getConfiguration('timeout', '-1');
         if (is_numeric($timeout)) {
@@ -697,7 +700,7 @@ class SNMP3Cmd extends cmd
             }
 
             $return = false;
-            if (SNMP3::openSession($eqLogic)) {
+            if (SNMP3::openSession($eqLogic,'RW')) {
                 // update l'OID
                 $return = SNMP3::setOID($oid, $type, $value);
                 SNMP3::closeSession();

@@ -18,10 +18,10 @@
 	"hasDependency" : true,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/changelog",
-	"documentation" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/",
-	"changelog_beta" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/changelog",
-	"documentation_beta" : "https://bernard-dandrea.github.io/jeedom-SNMP3/#language#/index",
+	"changelog" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/changelog",
+	"documentation" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/index",
+	"changelog_beta" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/changelog_beta",
+	"documentation_beta" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/index_beta",
 	"link" : {
 	},
 	"language": [
@@ -38,3 +38,4 @@
 		"atlas"
 	]
 }
+

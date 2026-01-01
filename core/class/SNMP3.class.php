@@ -1,5 +1,7 @@
 <?php
 
+// Last Modified : 2025/09/17 08:40:10
+
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -242,7 +244,9 @@ class SNMP3 extends eqLogic
         $essai = 0;
         while ($essai < $_retry) {
             try {
+                error_reporting(E_ALL & ~E_WARNING); // désactive les warnings PHP
                 $result = self::$_session->get($_oid);
+                error_reporting(E_ALL); // réactive les warnings PHP
             } catch (SNMPException $e) {
                 self::$_snmp_error_message = 'Function get: error (exception) ' . $e->getCode() . ' ' . $e->getMessage();
                 log::add('SNMP3', 'error', self::$_snmp_error_message);
@@ -279,7 +283,9 @@ class SNMP3 extends eqLogic
             return false;
         }
         try {
+            error_reporting(E_ALL & ~E_WARNING); // désactive les warnings PHP
             $result = self::$_session->set($_oid, $_type, $_value);
+            error_reporting(E_ALL); // réactive les warnings PHP
         } catch (SNMPException $e) {
             self::$_snmp_error_message = 'Function set: error (exception) ' . $e->getCode() . ' ' . $e->getMessage();
             log::add('SNMP3', 'error', self::$_snmp_error_message);
@@ -700,7 +706,7 @@ class SNMP3Cmd extends cmd
             }
 
             $return = false;
-            if (SNMP3::openSession($eqLogic,'RW')) {
+            if (SNMP3::openSession($eqLogic, 'RW')) {
                 // update l'OID
                 $return = SNMP3::setOID($oid, $type, $value);
                 SNMP3::closeSession();

@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/06/09 17:37:30
+// Last Modified : 2026/07/02 12:06:19
 
 /* This file is part of Jeedom.
  *
@@ -570,58 +570,16 @@ class SNMP3 extends eqLogic
     public static function cron()
     {
         log::add('SNMP3', 'info', 'Lancement de cron');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-    public static function cron5()
-    {
-        sleep(5);
-        log::add('SNMP3', 'info', 'Lancement de cron5');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-    public static function cron10()
-    {
-        sleep(10);
-        log::add('SNMP3', 'info', 'Lancement de cron10');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-    public static function cron15()
-    {
-        sleep(15);
-        log::add('SNMP3', 'info', 'Lancement de cron15');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-    public static function cron30()
-    {
-        sleep(20);
-        log::add('SNMP3', 'info', 'Lancement de cron30');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-
-    public static function cronHourly()
-    {
-        sleep(25);
-        log::add('SNMP3', 'info', 'Lancement de cronHourly');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-
-    public static function cronDaily()
-    {
-        sleep(30);
-        log::add('SNMP3', 'info', 'Lancement de cronDaily');
-        SNMP3::cron_update(__FUNCTION__);
-    }
-    public static function cron_update($_cron)
-    {
         foreach (eqLogic::byTypeAndSearchConfiguration('SNMP3', '"type":"SNMP3"') as $eqLogic) {
             if ($eqLogic->getIsEnable()) {
-                SNMP3::SNMP3_Update($eqLogic, $_cron);
+                SNMP3::SNMP3_Update($eqLogic);
             }
         }
     }
 
-    public static function SNMP3_Update($_eqLogic, $_cron)
+    public static function SNMP3_Update($_eqLogic, $_context='cron')
     {
-        log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' cron ' . $_cron);
+        log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' Contexte ' . $_context);
         if (SNMP3::openSession($_eqLogic)) {
             $retry = $_eqLogic->getConfiguration('retries');
             if (is_numeric($retry) == false) {
@@ -633,9 +591,48 @@ class SNMP3 extends eqLogic
             }
             $_eqLogic_refresh_cmd = $_eqLogic->getCmd(null, 'updatetime');
             foreach ($_eqLogic->getCmd() as $cmd) {
-                if ($cmd->getConfiguration('internal_type') == 'OID' && $cmd->getConfiguration('isCollected') == 1 && ($cmd->getConfiguration('cron') == $_cron || $_cron == 'refresh')) {
-                    if ($_eqLogic->refresh_info_cmd($cmd, $retry) == true) {
-                        $_eqLogic_refresh_cmd->event(date("d/m/Y H:i", (time())));
+                //  if ($cmd->getConfiguration('internal_type') == 'OID' && $cmd->getConfiguration('isCollected') == 1 && ($cmd->getConfiguration('cron') == $_cron || $_cron == 'refresh')) {
+                if ($cmd->getConfiguration('internal_type') == 'OID' && $cmd->getConfiguration('isCollected') == 1) {
+                    $run = false;
+                    if ($_context == 'refresh') {
+                        $run = true;
+                    } else {
+                        $autorefresh = '';
+                        switch ($cmd->getConfiguration('cron')) {
+                            case "cron":
+                                $autorefresh = '*/1 * * * *';
+                                break;
+                            case "cron5":
+                                $autorefresh = '*/5 * * * *';
+                                break;
+                            case "cron10":
+                                $autorefresh = '*/10 * * * *';
+                                break;
+                            case "cron15":
+                                $autorefresh = '*/15 * * * *';
+                                break;
+                            case "cron30":
+                                $autorefresh = '*/30 * * * *';
+                                break;
+                            case "cronHourly":
+                                $autorefresh = '0 * * * *';
+                                break;
+                            case "cronDaily":
+                                $autorefresh = '0 0 * * *';
+                                break;
+                        }
+                        if ($autorefresh != '') {
+                            $c = new Cron\CronExpression($autorefresh, new Cron\FieldFactory);
+                            if ($c->isDue()) {
+                                $run = true;
+                            }
+                        }
+                    }
+
+                    if ($run == true) {
+                        if ($_eqLogic->refresh_info_cmd($cmd, $retry) == true) {
+                            $_eqLogic_refresh_cmd->event(date("d/m/Y H:i", (time())));
+                        }
                     }
                 }
             }
@@ -645,7 +642,7 @@ class SNMP3 extends eqLogic
 
     function refresh_info_cmd($_cmd, $_retry)
     {
-        log::add('SNMP3', 'debug', 'Read OID ' . $_cmd->getLogicalId() . ' ' . $_cmd->getName());
+        log::add('SNMP3', 'info', $_cmd->getName() . ': Read OID ' . $_cmd->getLogicalId() . ' ' . $_cmd->getName());
         $_oid = $_cmd->getLogicalId();
         // lit l'OID
         $value = SNMP3::getOID($_oid, $_retry);

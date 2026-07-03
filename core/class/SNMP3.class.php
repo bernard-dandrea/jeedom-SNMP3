@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/07/02 12:06:19
+// Last Modified : 2026/07/03 15:53:24
 
 /* This file is part of Jeedom.
  *
@@ -28,6 +28,18 @@ class SNMP3 extends eqLogic
     private static $_session = null;
     private static $_snmp_error = null;
     public static $_snmp_error_message = null;
+
+    public function encrypt()
+    {
+        $this->setConfiguration('auth_passphrase', utils::encrypt($this->getConfiguration('auth_passphrase')));
+        $this->setConfiguration('privacy_passphrase', utils::encrypt($this->getConfiguration('privacy_passphrase')));
+    }
+
+    public function decrypt()
+    {
+        $this->setConfiguration('auth_passphrase', utils::decrypt($this->getConfiguration('auth_passphrase')));
+        $this->setConfiguration('privacy_passphrase', utils::decrypt($this->getConfiguration('privacy_passphrase')));
+    }
 
 
     //snmpget -v 3 -n "" -u admin_snmp_2024 -a MD5 -A "Camille" -x DES -X "Camille" -l authPriv 192.168.1.5 .1.3.6.1.4.1.6574.1.5.1.0
@@ -565,8 +577,6 @@ class SNMP3 extends eqLogic
         }
     }
 
-
-
     public static function cron()
     {
         log::add('SNMP3', 'info', 'Lancement de cron');
@@ -577,7 +587,7 @@ class SNMP3 extends eqLogic
         }
     }
 
-    public static function SNMP3_Update($_eqLogic, $_context='cron')
+    public static function SNMP3_Update($_eqLogic, $_context = 'cron')
     {
         log::add('SNMP3', 'info', 'SNMP3_Update SNMP3 : ' . $_eqLogic->getName() . ' Contexte ' . $_context);
         if (SNMP3::openSession($_eqLogic)) {
@@ -589,7 +599,6 @@ class SNMP3 extends eqLogic
                     $retry = 1;
                 }
             }
-            $_eqLogic_refresh_cmd = $_eqLogic->getCmd(null, 'updatetime');
             foreach ($_eqLogic->getCmd() as $cmd) {
                 //  if ($cmd->getConfiguration('internal_type') == 'OID' && $cmd->getConfiguration('isCollected') == 1 && ($cmd->getConfiguration('cron') == $_cron || $_cron == 'refresh')) {
                 if ($cmd->getConfiguration('internal_type') == 'OID' && $cmd->getConfiguration('isCollected') == 1) {
@@ -631,7 +640,8 @@ class SNMP3 extends eqLogic
 
                     if ($run == true) {
                         if ($_eqLogic->refresh_info_cmd($cmd, $retry) == true) {
-                            $_eqLogic_refresh_cmd->event(date("d/m/Y H:i", (time())));
+                            $_eqLogic_refresh_cmd = $_eqLogic->getCmd(null, 'updatetime');
+                            $_eqLogic->checkAndUpdateCmd($_eqLogic_refresh_cmd, $value);
                         }
                     }
                 }

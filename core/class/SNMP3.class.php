@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/07/03 15:53:24
+// Last Modified : 2026/07/22 09:24:28
 
 /* This file is part of Jeedom.
  *
@@ -42,6 +42,31 @@ class SNMP3 extends eqLogic
     }
 
 
+    public static function enable_cron($_enable)
+    {
+        $cron_SNMP3 = cron::byClassAndFunction('SNMP3', 'update');
+        $schedule = '* * * * *';
+        if ($_enable == '1') {
+            log::add('SNMP3', 'debug', __('Activation du cron de SNMP3', __FILE__));
+            if (!is_object($cron_SNMP3)) {
+                $cron_SNMP3 = new cron();
+                $cron_SNMP3->setClass('SNMP3');
+                $cron_SNMP3->setFunction('update');
+                $cron_SNMP3->setEnable(1);
+                $cron_SNMP3->setDeamon(0);
+                $cron_SNMP3->setSchedule($schedule);
+                $cron_SNMP3->setTimeout(1);
+            } else {
+                $cron_SNMP3->setEnable(1);
+            }
+            $cron_SNMP3->save();
+        } else {
+            log::add('SNMP3', 'debug', __('Désactivation du cron de SNMP3', __FILE__));
+            if (is_object($cron_SNMP3)) {
+                $cron_SNMP3->remove();
+            }
+        }
+    }
     //snmpget -v 3 -n "" -u admin_snmp_2024 -a MD5 -A "Camille" -x DES -X "Camille" -l authPriv 192.168.1.5 .1.3.6.1.4.1.6574.1.5.1.0
 
     public function test_connexion()
@@ -579,13 +604,24 @@ class SNMP3 extends eqLogic
 
     public static function cron()
     {
-        log::add('SNMP3', 'info', 'Lancement de cron');
+        $cron_SNMP3 = cron::byClassAndFunction('SNMP3', 'update');
+        if (!is_object($cron_SNMP3)) {
+            log::add('SNMP3', 'info', 'Lancement de cron');
+            SNMP3::update();
+        }
+    }
+
+    public static function update()
+    {
+        log::add('SNMP3', 'info', 'Lancement de update');
         foreach (eqLogic::byTypeAndSearchConfiguration('SNMP3', '"type":"SNMP3"') as $eqLogic) {
+            log::add('SNMP3', 'info', 'Appel SNMP3_Update SNMP3 : ' . $eqLogic->getName());
             if ($eqLogic->getIsEnable()) {
                 SNMP3::SNMP3_Update($eqLogic);
             }
         }
     }
+
 
     public static function SNMP3_Update($_eqLogic, $_context = 'cron')
     {
@@ -641,7 +677,7 @@ class SNMP3 extends eqLogic
                     if ($run == true) {
                         if ($_eqLogic->refresh_info_cmd($cmd, $retry) == true) {
                             $_eqLogic_refresh_cmd = $_eqLogic->getCmd(null, 'updatetime');
-                            $_eqLogic->checkAndUpdateCmd($_eqLogic_refresh_cmd, $value);
+                            $_eqLogic->checkAndUpdateCmd($_eqLogic_refresh_cmd, date("d/m/Y H:i", (time())));
                         }
                     }
                 }

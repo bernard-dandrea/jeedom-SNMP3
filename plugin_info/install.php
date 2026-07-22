@@ -1,4 +1,9 @@
 <?php
+
+
+// Last Modified : 2026/07/22 08:27:50
+
+
 /* This file is part of Jeedom.
 *
 * Jeedom is free software: you can redistribute it and/or modify
@@ -42,4 +47,10 @@ function SNMP3_pre_update()
 
 function SNMP3_remove()
 {
+
+    $cron = cron::byClassAndFunction('SNMP3', 'update');
+    if (is_object($cron)) {
+        $cron->remove();
+    }
+
 }

@@ -1,4 +1,8 @@
 <?php
+
+
+// Last Modified : 2026/07/22 08:29:10
+
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -58,6 +62,13 @@ try {
 
       
     }
+
+    if (init('action') == 'enable_cron') {
+        SNMP3::enable_cron(init('enable'));
+        ajax::success();
+    }
+
+
 
 
     throw new Exception(__('Aucune méthode correspondante à', __FILE__) . ' : ' . init('action'));

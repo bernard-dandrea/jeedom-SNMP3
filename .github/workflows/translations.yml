@@ -2,31 +2,12 @@ name: translate
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - beta
 
 jobs:
   auto-translate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Permet de pousser (push) sur les branches
-      pull-requests: write  # Nécessaire pour créer/modifier la Pull Request
     steps:
-      # 1️⃣ Récupère TOUJOURS la branche beta
-      - name: Checkout beta
-        uses: actions/checkout@v6
-        with:
-          ref: beta
-
-      # (Optionnel) 2️⃣ Sécurité : empêche l'exécution si ce n'est pas beta
-      - name: Vérifier la branche
-        run: |
-          if [ "${{ github.ref }}" != "refs/heads/beta" ]; then
-            echo "⚠️ Workflow lancé hors beta — mais on travaille quand même sur beta."
-          fi
-
-      # 3️⃣ Lancement du plugin de traduction
-      - name: Traduction automatique
-        uses: Mips2648/plugins-translations@v3
-        with:
-          deepl_api_key: ${{ secrets.DEEPL_API_KEY }}
-          include_empty_translation: true
-          target_languages: "en_US,es_ES,de_DE,it_IT,pt_PT"
+      - uses: Mips2648/plugins-translations@v5

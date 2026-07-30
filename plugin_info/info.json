@@ -1,31 +1,37 @@
 {
-	"id" : "SNMP3",
-	"name" : "SNMP3",
-	"specialAttributes" : {
-		"object" : {
-
-		},
-		"user" : {
-		}
+	"id": "SNMP3",
+	"name": "SNMP3",
+	"specialAttributes": {
+		"object": {},
+		"user": {}
 	},
-	"description" : {
-		"fr_FR": "Plugin permettant de s'interfacer avec SNMP"
+	"description": {
+		"fr_FR": "Plugin permettant de s'interfacer avec SNMP",
+		"en_US": "Plugin for interfacing with SNMP",
+		"es_ES": "Complemento que permite la integración con SNMP",
+		"de_DE": "Plugin zur Anbindung an SNMP",
+		"it_IT": "Plugin che consente l'interfacciamento con SNMP",
+		"pt_PT": "Plugin que permite a integração com o SNMP"
 	},
-	"licence" : "AGPL",
-	"author" : "Bernard Dandrea",
-	"require" : "4.2.0",
-	"category" : "devicecommunication",
-	"hasDependency" : true,
-	"hasOwnDeamon" : false,
-	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/changelog",
-	"documentation" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/index",
-	"changelog_beta" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/changelog_beta",
-	"documentation_beta" : "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/index_beta",
-	"link" : {
-	},
+	"licence": "AGPL",
+	"author": "Bernard Dandrea",
+	"require": "4.2.0",
+	"category": "devicecommunication",
+	"hasDependency": true,
+	"hasOwnDeamon": false,
+	"maxDependancyInstallTime": 0,
+	"changelog": "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/changelog",
+	"documentation": "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/index",
+	"changelog_beta": "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/changelog_beta",
+	"documentation_beta": "https://bernard-dandrea.github.io/documentation/jeedom-SNMP3/doc/#language#/index_beta",
+	"link": {},
 	"language": [
-		"fr_FR"
+		"de_DE",
+		"en_US",
+		"es_ES",
+		"fr_FR",
+		"it_IT",
+		"pt_PT"
 	],
 	"compatibility": [
 		"miniplus",
@@ -38,4 +44,3 @@
 		"atlas"
 	]
 }
-

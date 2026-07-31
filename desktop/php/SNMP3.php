@@ -97,7 +97,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <label class="col-sm-4 control-label">{{Nom du SNMP3}}</label>
                 <div class="col-sm-6">
                   <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display:none;">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'SNMP3}}">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du SNMP3}}">
                 </div>
               </div>
               <div class="form-group">
@@ -145,14 +145,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <label class="col-sm-4 control-label">{{Version}}</label>
                 <div class="col-sm-6">
                   <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="version">
-                    <option value="0">{{v1}}</option>
-                    <option value="1">{{v2c}}</option>
-                    <option value="3">{{v3}}</option>
+                    <option value="0">v1</option>
+                    <option value="1">v2c</option>
+                    <option value="3">v3</option>
                   </select>
                 </div>
               </div>
               <div class="form-group ">
-                <label class="col-sm-4 control-label">{{localhost}}</label>
+                <label class="col-sm-4 control-label">localhost</label>
                 <div class="col-sm-6">
                   <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="localhost"">
                 </div>
@@ -160,11 +160,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
               
 							<div class=" snmp_protocole snmp_0 snmp_1">
                   <div class="form-group ">
-                    <label class="col-sm-4 control-label">{{community}}</label>
+                    <label class="col-sm-4 control-label">community</label>
                     <div class="col-sm-6">
                       <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community"">
                     </div>
-                    <label class="col-sm-4 control-label">{{community RW}}</label>
+                    <label class="col-sm-4 control-label">community RW</label>
                     <div class="col-sm-6">
                       <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community_rw"">
                     </div>
@@ -173,53 +173,53 @@ $eqLogics = eqLogic::byType($plugin->getId());
               
 							<div class=" snmp_protocole snmp_3">
                       <div class=" form-group ">
-                        <label class=" col-sm-4 control-label">{{security_name}}</label>
+                        <label class=" col-sm-4 control-label">security_name</label>
                         <div class="col-sm-6">
                           <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_name" />
                         </div>
                       </div>
                       <div class=" form-group">
-                        <label class="col-sm-4 control-label">{{security_level}}</label>
+                        <label class="col-sm-4 control-label">security_level</label>
                         <div class="col-sm-6">
                           <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_level">
-                            <option value="noAuthNoPriv">{{noAuthNoPriv}}</option>
-                            <option value="authNoPriv">{{authNoPriv}}</option>
-                            <option value="authPriv">{{authPriv}}</option>
+                            <option value="noAuthNoPriv">noAuthNoPriv</option>
+                            <option value="authNoPriv">authNoPriv</option>
+                            <option value="authPriv">authPriv</option>
                           </select>
                         </div>
                       </div>
                       <div class=" form-group">
-                        <label class="col-sm-4 control-label">{{auth_protocol}}</label>
+                        <label class="col-sm-4 control-label">auth_protocol</label>
                         <div class="col-sm-6">
                           <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_protocol">
-                            <option value="MD5">{{MD5}}</option>
-                            <option value="SHA">{{SHA}}</option>
+                            <option value="MD5">MD5</option>
+                            <option value="SHA">SHA</option>
                           </select>
                         </div>
                       </div>
                       <div class="form-group ">
-                        <label class="col-sm-4 control-label">{{auth_passphrase}}</label>
+                        <label class="col-sm-4 control-label">auth_passphrase</label>
                         <div class="col-sm-6">
                           <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_passphrase" />
                         </div>
                       </div>
                       <div class=" form-group">
-                        <label class="col-sm-4 control-label">{{privacy_protocol}}</label>
+                        <label class="col-sm-4 control-label">privacy_protocol</label>
                         <div class="col-sm-6">
                           <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_protocol">
-                            <option value="DES">{{DES}}</option>
-                            <option value="AES">{{AES}}</option>
+                            <option value="DES">DES</option>
+                            <option value="AES">AES</option>
                           </select>
                         </div>
                       </div>
                       <div class="form-group ">
-                        <label class="col-sm-4 control-label">{{privacy_passphrase}}</label>
+                        <label class="col-sm-4 control-label">privacy_passphrase</label>
                         <div class="col-sm-6">
                           <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_passphrase" />
                         </div>
                       </div>
                       <div class="form-group ">
-                        <label class="col-sm-4 control-label">{{context_name}}</label>
+                        <label class="col-sm-4 control-label">context_name</label>
                         <div class="col-sm-6">
                           <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="context_name" />
                         </div>
@@ -227,7 +227,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
                     </div>
                     <div class="form-group ">
-                      <label class="col-sm-4 control-label">{{timeout (en millisec)}}</label>
+                      <label class="col-sm-4 control-label">timeout (en millisec)</label>
                       <div class="col-sm-6">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout"">
                 </div>
@@ -236,7 +236,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
             
 
               <div class=" form-group ">
-                  <label class=" col-sm-4 control-label">{{retries}}</label>
+                  <label class=" col-sm-4 control-label">{{Nombre d'essais}}</label>
                         <div class="col-sm-6">
                           <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retries"">
                 </div>
@@ -245,7 +245,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                           <label class="col-sm-4 control-label">{{Icône}}</label>
                           <div class="col-sm-6">
                             <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="icon">
-                              <option value="none">{{Aucun}}</option>
+                              <option value="none">{{Aucune}}</option>
                               <option value="Perso1">{{Perso1}}</option>
                               <option value="Perso2">{{Perso2}}</option>
                               <option value="Perso3">{{Perso3}}</option>
@@ -286,7 +286,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                       <tr>
                         <th class="hidden-xs" style="min-width:50px;width:70px;">ID</th>
                         <th style="min-width:200px;width:350px;">{{Nom}}</th>
-                        <th>{{logicalID}}</th>
+                        <th>logicalID</th>
                         <th>{{Type}}</th>
                         <th style="min-width:260px;">{{Options}}</th>
                         <th>{{Scan}}</th>

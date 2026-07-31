@@ -37,7 +37,6 @@
         "valeur": "value"
     },
     "plugins\/SNMP3\/desktop\/js\/SNMP3.js": {
-        "'Tester'": "'Test'",
         "Afficher": "Show",
         "Aucun": "None",
         "Aucune": "None",
@@ -49,6 +48,7 @@
         "Min": "Minimum",
         "Nom de la commande": "Command Name",
         "Supprimer la commande": "Delete the command",
+        "Tester": "Test",
         "Toutes les 10 minutes": "Every 10 minutes",
         "Toutes les 15 minutes": "Every 15 minutes",
         "Toutes les 30 minutes": "Every 30 minutes",

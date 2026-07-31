@@ -1,7 +1,7 @@
 <?php
 
 
-// Last Modified : 2026/07/22 08:29:10
+// Last Modified : 2026/07/31 16:40:11
 
 /* This file is part of Jeedom.
  *
@@ -27,18 +27,13 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    /* Fonction permettant l'envoi de l'entête 'Content-Type: application/json'
-    En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
-    En V4 : autoriser l'exécution d'une méthode 'action' en GET en indiquant le(s) nom(s) de(s) action(s) dans un tableau en argument
-    */
     ajax::init();
-
 
     if (init('action') == 'create_command') {
 
         $eqLogic = SNMP3::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new \Exception(__('SNMP3 eqLogic non trouvé : ', __FILE__) . init('id'));
+            throw new \Exception(__('SNMP3 eqLogic non trouvé', __FILE__) . ' : ' . init('id'));
         }
         
         $id_commande = init('id_commande');
@@ -54,7 +49,7 @@ try {
 
         $eqLogic = SNMP3::byId(init('id'));
         if (!is_object($eqLogic)) {
-            throw new \Exception(__('SNMP3 eqLogic non trouvé : ', __FILE__) . init('id'));
+            throw new \Exception(__('SNMP3 eqLogic non trouvé', __FILE__) . ' : ' . init('id'));
         }
         
         $SNMP3 = $eqLogic->test_connexion();

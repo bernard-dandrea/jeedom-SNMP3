@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/07/30 17:44:39
+// Last Modified : 2026/07/31 16:24:23
 
 /* This file is part of Jeedom.
  *
@@ -24,7 +24,6 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class SNMP3 extends eqLogic
 {
-
 
     private static $_session = null;
     private static $_snmp_error = null;
@@ -92,14 +91,14 @@ class SNMP3 extends eqLogic
                 $community
             );
         } catch (SNMPException $e) {
-            $error = __('Erreur creation session SNMP ', __FILE__) . $e->getCode() . ' ' . $e->getMessage();
+            $error = __('Erreur création session SNMP', __FILE__) . ' ' . $e->getCode() . ' ' . $e->getMessage();
             logSNMP3($error);
-            $error = __('Connection KO : ', __FILE__) . $error;
+            $error = __('Connexion KO', __FILE__) . ' : ' . $error;
             throw new Exception($error);
         }
         if ($session->getErrno()  != '0') {
-            $error = __('Erreur creation session SNMP ', __FILE__) . $session->getErrno() . ' '  . $session->getError();
-            logSNMP3(__('Connection KO : ', __FILE__)  . $error);
+            $error = __('Erreur création session SNMP', __FILE__) . ' ' . $session->getErrno() . ' '  . $session->getError();
+            logSNMP3(__('Connexion KO', __FILE__) . ' : '  . $error);
             throw new Exception($error);
         }
 
@@ -117,17 +116,17 @@ class SNMP3 extends eqLogic
                 $this->getConfiguration('context_engineid'),
             );
         } catch (SNMPException $e) {
-            $error = __('setSecurity erreur ', __FILE__) . $e->getCode() . ' ' . $e->getMessage();
+            $error = 'setSecurity ' . __('erreur', __FILE__) . ' ' . $e->getCode() . ' ' . $e->getMessage();
             logSNMP3($error);
             $session->close();
-            $error =  __('Connection KO : ', __FILE__)  . $error;
+            $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
             throw new Exception($error);
         }
         if ($session->getErrno()  != '0') {
-            $error = __('setSecurity erreur ', __FILE__) . $session->getErrno() . ' ' . $session->getError();
+            $error ='setSecurity ' .  __('erreur', __FILE__) . ' ' . $session->getErrno() . ' ' . $session->getError();
             logSNMP3($error);
             $session->close();
-            $error =  __('Connection KO : ', __FILE__)  . $error;
+            $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
             throw new Exception($error);
         }
 
@@ -135,28 +134,28 @@ class SNMP3 extends eqLogic
         try {
             $sysLocation = $session->get($oid);
         } catch (SNMPException $e) {
-            $error = __('Erreur get ', __FILE__) . $e->getCode() . ' ' . $e->getMessage();
+            $error = __('Erreur', __FILE__) . ' get ' . $e->getCode() . ' ' . $e->getMessage();
             logSNMP3($error);
             $session->close();
-            $error =  __('Connection KO : ', __FILE__)  . $error;
+            $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
             throw new Exception($error);
         }
 
         if ($session->getErrno()  != '0') {
-            $error = __('Erreur get ', __FILE__) . $session->getErrno() . ' '  . $session->getError();
+            $error = __('Erreur', __FILE__) . ' get ' . $session->getErrno() . ' '  . $session->getError();
             logSNMP3($error);
             $session->close();
-            $error =  __('Connection KO : ', __FILE__)  . $error;
+            $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
             throw new Exception($error);
         } else {
-            logSNMP3(__('Connection KO : ', __FILE__) . 'sysLocation' . $sysLocation, 'info');
+            logSNMP3(__('Connexion OK', __FILE__) . ' : ' . ' :  sysLocation -> ' . $sysLocation, 'info');
             $session->close();
             event::add(
                 'jeedom::alert',
                 array(
                     'level' => 'success',
                     'page' => 'SNMP3',
-                    'message' => 'Connection OK : ' . ' sysLocation -> ' . $sysLocation,
+                    'message' => __('Connexion OK', __FILE__) . ' :  sysLocation -> ' . $sysLocation,
                 )
             );
         }
@@ -173,10 +172,10 @@ class SNMP3 extends eqLogic
         foreach ($files as $mib_file) {
             if (is_file($mib_file)) {
                 if (snmp_read_mib($mib_file) == false) {
-                    $error = 'Cannot load mib ' . $mib_file;
+                    $error = __('Impossible de charger le MIB', __FILE__) . ' ' . $mib_file;
                     logSNMP3($error);
                 } else {
-                    logSNMP3('MIB ' . $mib_file . __(' chargé', __FILE__), 'debug');
+                    logSNMP3('MIB ' . $mib_file .' ' . __('chargé', __FILE__), 'debug');
                 }
             }
         }
@@ -218,12 +217,12 @@ class SNMP3 extends eqLogic
                 0  // retry géré par le programme
             );
         } catch (SNMPException $e) {
-            $error = __('Erreur creation session SNMP ', __FILE__) . $e->getCode() . ' ' . $e->getMessage();
+            $error = __('Erreur création session SNMP', __FILE__) . ' ' . $e->getCode() . ' ' . $e->getMessage();
             logSNMP3($error);
             return false;
         }
         if (self::$_session->getErrno()  != '0') {
-            $error = __('Erreur creation session SNMP ', __FILE__) . self::$_session->getErrno() . ' '  . self::$_session->getError();
+            $error = __('Erreur création session SNMP', __FILE__) . ' ' . self::$_session->getErrno() . ' '  . self::$_session->getError();
             logSNMP3($error);
             return false;
         }
@@ -242,13 +241,13 @@ class SNMP3 extends eqLogic
                 $_eqLogic->getConfiguration('context_engineid'),
             );
         } catch (SNMPException $e) {
-            $error = __('Erreur setSecurity ', __FILE__) . $e->getCode() . ' ' . $e->getMessage();
+            $error = __('Erreur', __FILE__) . ' setSecurity ' . $e->getCode() . ' ' . $e->getMessage();
             logSNMP3($error);
             self::$_session->close();
             return false;
         }
         if (self::$_session->getErrno()  != '0') {
-            $error = __('Erreur setSecurity ', __FILE__) . self::$_session->getErrno() . ' '  . self::$_session->getError();;
+            $error = __('Erreur', __FILE__) . ' setSecurity ' . self::$_session->getErrno() . ' '  . self::$_session->getError();;
             logSNMP3($error);
             self::$_session->close();
             return false;
@@ -273,7 +272,7 @@ class SNMP3 extends eqLogic
         self::$_snmp_error = true;
         self::$_snmp_error_message = '';
         if (self::$_session == null) {
-            self::$_snmp_error_message = __('Function', __FILE__) . ' get: ' . __('Session non initialisee', __FILE__);
+            self::$_snmp_error_message = __('Fonction', __FILE__) . ' get: ' . __('Session non initialisée', __FILE__);
             logSNMP3(self::$_snmp_error_message, 'error');
             return false;
         }
@@ -294,7 +293,7 @@ class SNMP3 extends eqLogic
             }
             $essai = $essai + 1;
             if ($essai < $_retry) {
-                logSNMP3(__('Fonction ', __FILE__) . 'get: ' . __('erreur ', __FILE__) . self::$_session->getErrno() . ' '  . self::$_session->getError() . __(' -> nouvel essai', __FILE__), 'warning');
+                logSNMP3(__('Fonction', __FILE__) . ' ' . 'get: ' . __('erreur', __FILE__) . ' ' . self::$_session->getErrno() . ' '  . self::$_session->getError() . __(' -> nouvel essai', __FILE__), 'warning');
             }
         }
 
@@ -313,9 +312,9 @@ class SNMP3 extends eqLogic
     {
         self::$_snmp_error = true;
         self::$_snmp_error_message = '';
-        logSNMP3(__('setOID ', __FILE__) . ' ' . $_oid . ' type ' . $_type . ' value ' . $_value, 'info');
+        logSNMP3(__('setOID', __FILE__) . ' ' . ' ' . $_oid . ' ' . __('type', __FILE__) . ' ' . $_type . ' ' . __('valeur', __FILE__) . ' ' . $_value, 'info');
         if (self::$_session == null) {
-            self::$_snmp_error_message = __('Fonction', __FILE__) . ' set: ' . __('Session non initialisee', __FILE__);
+            self::$_snmp_error_message = __('Fonction', __FILE__) . ' set: ' . __('Session non initialisée', __FILE__);
             logSNMP3(self::$_snmp_error_message, 'error');
             return false;
         }
@@ -334,14 +333,14 @@ class SNMP3 extends eqLogic
             logSNMP3(self::$_snmp_error_message, 'error');
             return false;
         } else {
-            logSNMP3(__('setOID ', __FILE__) . ' ' . $_oid . ' --> ' . $_value, 'info');
+            logSNMP3('setOID'. ' ' . $_oid . ' --> ' . $_value, 'info');
             return true;
         }
     }
 
     public function create_command($_oid, $info, $action, $refresh)
     {
-        logSNMP3('create_command' . ' ' . $this->name . ' OID ' . $_oid . ' Info ' . $info . ' Action ' . $action . ' Refresh ' . $refresh, 'info');
+        logSNMP3('create_command' . ' ' . $this->getName() . ' OID ' . $_oid . ' Info ' . $info . ' Action ' . $action . ' Refresh ' . $refresh, 'info');
 
         if (SNMP3::openSession($this)) {
 
@@ -365,7 +364,7 @@ class SNMP3 extends eqLogic
     // crée la commande type info
     {
         if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), $_oid))) {
-            logSNMP3('create_info_command ' . $this->name . __('  commande déjà créée ', __FILE__) . $_oid, 'info');
+            logSNMP3('create_info_command ' . $this->getName() . ' ' . __('commande déjà créée', __FILE__) . ' ' . $_oid, 'info');
             return '0';
         }
 
@@ -377,7 +376,7 @@ class SNMP3 extends eqLogic
 
         $name = $_oid;
 
-        logSNMP3('create_info_command ' . $this->name . __('  création commande ', __FILE__) . $name, 'info');
+        logSNMP3('create_info_command ' . $this->getName() . ' ' . __('création commande', __FILE__) . ' ' . $name, 'info');
 
         $cmd = new SNMP3Cmd();
 
@@ -393,7 +392,7 @@ class SNMP3 extends eqLogic
                 $count++;
             }
             $cmd->setName(substr($name, 0, 1) . "..." . $count);
-            logSNMP3(__('Renomme en ', __FILE__) . substr($name, 0, 100) . "..." . $count, 'info');
+            logSNMP3(__('Renomme en', __FILE__) . ' ' . substr($name, 0, 100) . "..." . $count, 'info');
         } else {
             $cmd->setName($name);
         }
@@ -421,7 +420,7 @@ class SNMP3 extends eqLogic
     {
 
         if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), 'R_' . $_oid))) {
-            logSNMP3('create_refresh_command ' . $this->name . __('  commande refresh déjà créée ', __FILE__) . 'R_' . $_oid, 'info');
+            logSNMP3('create_refresh_command ' . $this->getName() . ' ' . __('commande refresh déjà créée', __FILE__) . ' ' . 'R_' . $_oid, 'info');
             return '0';
         }
 
@@ -439,7 +438,7 @@ class SNMP3 extends eqLogic
         }
         $name = $name . ' Refresh';
 
-        logSNMP3('create_refresh_command ' . $this->name . __('  création commande ', __FILE__) . $name, 'info');
+        logSNMP3('create_refresh_command ' . $this->getName() . ' ' . __('création commande', __FILE__) . ' ' . $name, 'info');
 
         $cmd = new SNMP3Cmd();
 
@@ -455,7 +454,7 @@ class SNMP3 extends eqLogic
                 $count++;
             }
             $cmd->setName(substr($name, 0, 100) . "..." . $count);
-            logSNMP3(__('Renomme en ', __FILE__) . substr($name, 0, 100) . "..." . $count, 'info');
+            logSNMP3(__('Renomme en', __FILE__) . ' ' . substr($name, 0, 100) . "..." . $count, 'info');
         } else {
             $cmd->setName($name);
         }
@@ -476,7 +475,7 @@ class SNMP3 extends eqLogic
     {
 
         if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), 'A_' . $_oid))) {
-            logSNMP3('create_action_command ' . $this->name . __('  commande action déjà créée ', __FILE__) . 'A_' . $_oid, 'info');
+            logSNMP3('create_action_command ' . $this->getName() . ' ' . __('commande action déjà créée', __FILE__) . ' ' . 'A_' . $_oid, 'info');
             return '0';
         }
 
@@ -495,7 +494,7 @@ class SNMP3 extends eqLogic
 
         $name = $name . ' Action';
 
-        logSNMP3('create_action_command ' . $this->name . __('  création commande ', __FILE__) . $name, 'info');
+        logSNMP3('create_action_command ' . $this->getName() . ' ' . __('création commande', __FILE__) . ' ' . $name, 'info');
 
         $cmd = new SNMP3Cmd();
 
@@ -511,7 +510,7 @@ class SNMP3 extends eqLogic
                 $count++;
             }
             $cmd->setName(substr($name, 0, 100) . "..." . $count);
-            logSNMP3(__('Renomme en ', __FILE__) . substr($name, 0, 100) . "..." . $count, 'info');
+            logSNMP3(__('Renomme en', __FILE__) . ' ' . substr($name, 0, 100) . "..." . $count, 'info');
         } else {
             $cmd->setName($name);
         }
@@ -544,18 +543,6 @@ class SNMP3 extends eqLogic
         }
         if ($this->getConfiguration('retries', '') == "") {
             $this->setConfiguration('retries', '3');
-        }
-    }
-
-    public function preUpdate()
-    {
-        if ($this->getIsEnable()) {
-        }
-    }
-
-    public function preSave()
-    {
-        if ($this->getIsEnable()) {
         }
     }
 
@@ -606,16 +593,15 @@ class SNMP3 extends eqLogic
     {
         $cron_SNMP3 = cron::byClassAndFunction('SNMP3', 'update');
         if (!is_object($cron_SNMP3)) {
-            logSNMP3(__('Lancement de ', __FILE__) . 'cron', 'info');
+            logSNMP3(__('Lancement de', __FILE__) . ' ' . 'cron', 'info');
             SNMP3::update();
         }
     }
 
     public static function update()
     {
-        logSNMP3(__('Lancement de ', __FILE__) . 'update', 'info');
+        logSNMP3(__('Lancement de', __FILE__) . ' ' . 'update', 'info');
         foreach (eqLogic::byTypeAndSearchConfiguration('SNMP3', '"type":"SNMP3"') as $eqLogic) {
-            logSNMP3(__('Appel ', __FILE__) . 'SNMP3_Update SNMP3 : ' . $eqLogic->getName(), 'info');
             if ($eqLogic->getIsEnable()) {
                 SNMP3::SNMP3_Update($eqLogic);
             }
@@ -710,7 +696,7 @@ class SNMP3Cmd extends cmd
         // Refresh toutes les infos
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
-            throw new \Exception(__('Equipement desactivé impossible d\éxecuter la commande : ', __FILE__) . $this->getHumanName());
+            throw new \Exception(__('Equipement desactivé impossible d\éxecuter la commande ', __FILE__) . ' : ' . $this->getHumanName());
         }
 
         // Refresh toutes les infos
@@ -742,7 +728,7 @@ class SNMP3Cmd extends cmd
                     $value = $_options['message'];
                     break;
                 default:
-                    $error = __('Type d action non défini : ', __FILE__) . $this->getSubType();
+                    $error = __('Type d\'action non défini ', __FILE__) . ' : ' . $this->getSubType();
                     logSNMP3($error, 'warning');
                     throw new \Exception($error);
                     break;
@@ -756,9 +742,9 @@ class SNMP3Cmd extends cmd
             }
 
             if ($return == true) {
-                logSNMP3(__('MAJ ', __FILE__) . $_oid . ' OK', 'info');
+                logSNMP3(__('MAJ', __FILE__) . ' ' . $_oid . ' OK', 'info');
             } else {
-                $error = 'OID: ' . $oid . ' ' . __('erreur: ', __FILE__) . SNMP3::$_snmp_error_message;
+                $error = 'OID: ' . $oid . ' ' . __('erreur:', __FILE__) . ' ' . SNMP3::$_snmp_error_message;
                 logSNMP3($error);
                 throw new Exception($error);
             }
@@ -771,7 +757,7 @@ class SNMP3Cmd extends cmd
 
             $cmd = cmd::byEqLogicIdAndLogicalId($eqLogic->getId(), $oid);
             if (!is_object($cmd)) {
-                $error = 'OID ' . $oid . __(' non trouvé', __FILE__);
+                $error = 'OID ' . $oid . ' ' . __('non trouvé', __FILE__);
                 logSNMP3($error);
                 throw new Exception($error);
                 $return = false;
@@ -780,7 +766,7 @@ class SNMP3Cmd extends cmd
                 $return = $eqLogic->refresh_info_cmd($cmd);
                 SNMP3::closeSession();
                 if ($return == false) {
-                    $error = 'OID: ' . $oid . __(' erreur ', __FILE__) . SNMP3::$_snmp_error_message;
+                    $error = 'OID: ' . $oid . ' ' . __('erreur', __FILE__) . ' ' . SNMP3::$_snmp_error_message;
                     logSNMP3($error);
                     throw new Exception($error);
                 }

@@ -76,7 +76,7 @@ function addCmdToTable(_cmd) {
     tr += '</select>'
     tr += '</td>'
     tr += '<td>';
-    tr += '<input class="cmdAttr form-control input-sm " data-l1key="logicalId" placeholder="{{logicalID}}">'
+    tr += '<input class="cmdAttr form-control input-sm " data-l1key="logicalId" placeholder="logicalID">'
     tr += '</td>';
     tr += '<td>'
     tr += '<span class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>'
@@ -177,7 +177,7 @@ $("#table_cmd").sortable({ axis: "y", cursor: "move", items: ".cmd", placeholder
 
 $('#bt_create_info_command').on('click', function () {
 
-    bootbox.prompt('{{OID}}' + ' ?', function (result) {
+    bootbox.prompt('OID' + ' ?', function (result) {
 
         if (result !== null && result != '') {
 
@@ -211,7 +211,7 @@ $('#bt_create_info_command').on('click', function () {
 
 $('#bt_create_action_command').on('click', function () {
 
-    bootbox.prompt('{{OID}}' + ' ?', function (result) {
+    bootbox.prompt('OID' + ' ?', function (result) {
 
         if (result !== null && result != '') {
 
@@ -246,7 +246,7 @@ $('#bt_create_action_command').on('click', function () {
 
 $('#bt_create_refresh_command').on('click', function () {
 
-    bootbox.prompt('{{OID}}' + ' ?', function (result) {
+    bootbox.prompt('OID' + ' ?', function (result) {
 
         if (result !== null && result != '') {
 

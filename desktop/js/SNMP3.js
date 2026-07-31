@@ -1,5 +1,7 @@
 /* This file is part of Jeedom.
 *
+// Last Modified : 2026/07/31 17:20:59
+
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
@@ -122,7 +124,7 @@ function addCmdToTable(_cmd) {
 
     tr += '<a class="btn btn-default btn-xs cmdAction" data-action="configure"><i class="fas fa-cogs"></i></a> '
     if (init(_cmd.type) == "action") {
-        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fas fa-rss"></i> ' + {{'Tester'}} + '</a>'
+        tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fas fa-rss"></i> {{Tester}}</a>'
     }
     tr += '<i class="fas fa-minus-circle pull-right cmdAction cursor" data-action="remove" title="{{Supprimer la commande}}"></i></td>'
     tr += '</tr>'

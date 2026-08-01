@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/07/31 17:14:15
+// Last Modified : 2026/08/01 11:37:05
 
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
@@ -266,7 +266,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
       <div role="tabpanel" class="tab-pane" id="commandtab">
         <div class="input-group pull-right" style="display:inline-flex;margin-top:5px;">
           <span class="input-group-btn">
-            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command" title='{{Importer un paramètre}}'><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
+            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command" title='{{Importer un OID}}'><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
             <a class="btn btn-info btn-xs roundedLeft" id="bt_create_refresh_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande refresh}}</a>
             <a class="btn btn-info btn-xs roundedLeft" id="bt_create_action_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande action}}</a>
           </span>

@@ -15,7 +15,7 @@
 	},
 	"licence": "AGPL",
 	"author": "Bernard Dandrea",
-	"require": "4.2.0",
+	"require": "4.5.0",
 	"category": "devicecommunication",
 	"hasDependency": true,
 	"hasOwnDeamon": false,

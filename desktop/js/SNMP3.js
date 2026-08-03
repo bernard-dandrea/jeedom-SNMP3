@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 *
-// Last Modified : 2026/07/31 17:20:59
+// Last Modified : 2026/08/03 08:29:05
 
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -16,44 +16,40 @@
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
 
+// affiche les champs de configuration en fonction du protocole SNMP choisi
+document.querySelector('.eqLogicAttr[data-l1key="configuration"][data-l2key="version"]')
+    .addEventListener('change', function () {
+        document.querySelectorAll('.snmp_protocole').forEach(el => {
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.snmp_' + this.value).forEach(el => {
+            el.style.display = '';
+        });
+    });
 
-
-
-/* Permet la réorganisation des commandes dans l'équipement */
-$("#table_cmd").sortable({
-    axis: "y",
-    cursor: "move",
-    items: ".cmd",
-    placeholder: "ui-state-highlight",
-    tolerance: "intersect",
-    forcePlaceholderSize: true
-})
-
-$("#table_cmd").delegate(".listEquipementInfo", 'click', function () {
-    var el = $(this)
-    jeedom.cmd.getSelectModal({ cmd: { type: 'info' } }, function (result) {
-        var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=' + el.data('input') + ']')
-        calcul.atCaret('insert', result.human)
-    })
-})
-
-$("#table_cmd").delegate(".listEquipementAction", 'click', function () {
-    var el = $(this)
-    var subtype = $(this).closest('.cmd').find('.cmdAttr[data-l1key=subType]').value()
-    jeedom.cmd.getSelectModal({ cmd: { type: 'action', subType: subtype } }, function (result) {
-        var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=' + el.attr('data-input') + ']')
-        calcul.atCaret('insert', result.human);
-    })
-})
-
-$('.eqLogicAttr[data-l1key=configuration][data-l2key="version"]').on('change', function () {
-    $('.snmp_protocole').hide();
-    $('.snmp_' + $(this).value()).show();
-});
-
-
+    
 /* Fonction permettant l'affichage des commandes dans l'équipement */
 function addCmdToTable(_cmd) {
+
+    if (document.getElementById('table_cmd') == null) return
+    if (document.querySelector('#table_cmd thead') == null) {
+        table = '<thead>'
+        table += '<tr>'
+        table += '<th style="min-width:50px;width:70px;">ID</th>'
+        table += '<th>{{Nom}}</th>'
+        table += '<th>logicalID</th>'
+        table += '<th>{{Type}}</th>'
+        table += '<th style="min-width:260px;">{{Options}}</th>'
+        table += '<th>{{Scan}}</th>'
+        table += '<th>{{Valeur}}'
+        table += '</th>'
+        table += '<th style="min-width:80px;width:200px;">{{Actions}}</th>'
+        table += '</tr>'
+        table += '</thead>'
+        table += '<tbody>'
+        table += '</tbody>'
+        document.getElementById('table_cmd').insertAdjacentHTML('beforeend', table)
+    }
 
     if (!isset(_cmd)) {
         var _cmd = { configuration: {} }
@@ -62,21 +58,27 @@ function addCmdToTable(_cmd) {
         _cmd.configuration = {}
     }
 
+    let logicalId = init(_cmd.logicalId);
+
     let internal_type = _cmd.configuration.internal_type;
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">'
-    tr += '<td class="hidden-xs">'
+    tr += '<td>'
     tr += '<span class="cmdAttr" data-l1key="id"></span>'
     tr += '</td>'
-    tr += '<td>'
+
+    tr += '<td>';
     tr += '<div class="input-group">'
     tr += '<input class="cmdAttr form-control input-sm roundedLeft" data-l1key="name" placeholder="{{Nom de la commande}}">'
     tr += '<span class="input-group-btn"><a class="cmdAction btn btn-sm btn-default" data-l1key="chooseIcon" title="{{Choisir une icône}}"><i class="fas fa-icons"></i></a></span>'
     tr += '<span class="cmdAttr input-group-addon roundedRight" data-l1key="display" data-l2key="icon" style="font-size:19px;padding:0 5px 0 0!important;"></span>'
     tr += '</div>'
-    tr += '<select class="cmdAttr form-control input-sm" data-l1key="value" style="display:none;margin-top:5px;" title="{{Commande info liée}}">'
-    tr += '<option value="">{{Aucune}}</option>'
-    tr += '</select>'
-    tr += '</td>'
+    // affiche la commande liée uniquement pour les commandes actions
+    if (logicalId.length >= 3 && logicalId.substr(0, 2) == 'A_') {
+        tr += '<select class="hidden-xs cmdAttr form-control input-sm" data-l1key="value" style="display:none;margin-top:5px;" title="{{Commande info liée}}">'
+        tr += '<option value="">{{Aucune}}</option>'
+        tr += '</select>'
+    }
+    tr += '</td>';
     tr += '<td>';
     tr += '<input class="cmdAttr form-control input-sm " data-l1key="logicalId" placeholder="logicalID">'
     tr += '</td>';
@@ -128,20 +130,27 @@ function addCmdToTable(_cmd) {
     }
     tr += '<i class="fas fa-minus-circle pull-right cmdAction cursor" data-action="remove" title="{{Supprimer la commande}}"></i></td>'
     tr += '</tr>'
-    $('#table_cmd tbody').append(tr)
-    var tr = $('#table_cmd tbody tr').last()
+
+    let newRow = document.createElement('tr')
+    newRow.innerHTML = tr
+    newRow.addClass('cmd')
+    newRow.setAttribute('data-cmd_id', init(_cmd.id))
+    document.getElementById('table_cmd').querySelector('tbody').appendChild(newRow)
+
     jeedom.eqLogic.buildSelectCmd({
-        id: $('.eqLogicAttr[data-l1key=id]').value(),
+        id: document.querySelector('.eqLogicAttr[data-l1key="id"]').jeeValue(),
         filter: { type: 'info' },
         error: function (error) {
-            $('#div_alert').showAlert({ message: error.message, level: 'danger' })
+            jeedomUtils.showAlert({ message: error.message, level: 'danger' })
         },
         success: function (result) {
-            tr.find('.cmdAttr[data-l1key=value]').append(result)
-            tr.setValues(_cmd, '.cmdAttr')
-            jeedom.cmd.changeType(tr, init(_cmd.subType))
+            newRow.querySelector('.cmdAttr[data-l1key="value"]')?.insertAdjacentHTML('beforeend', result)
+            newRow.setJeeValues(_cmd, '.cmdAttr')
+            jeedom.cmd.changeType(newRow, init(_cmd.subType))
         }
     })
+
+
 }
 
 
@@ -151,45 +160,57 @@ function printEqLogic(_eqLogic) {
 }
 
 
-$('#bt_TestConnexionSNMP3').on('click', function () {
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "plugins/SNMP3/core/ajax/SNMP3.ajax.php", // url du fichier php
-        // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
+document.querySelector('#bt_TestConnexionSNMP3').addEventListener('click', function () {
+
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+
+    var paramsAJAX = {
+        type: "POST",
+        url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
         data: {
-            action: "test_connexion",
-            id: $('.eqLogicAttr[data-l1key=id]').value(),
+            action: 'test_connexion',
+            id: eqLogicId
         },
         dataType: 'json',
         error: function (request, status, error) {
-            handleAjaxError(request, status, $('#div_DetectBin'));
+            handleAjaxError(request, status, error)
         },
-        success: function (data) { // si l'appel a bien fonctionné
-            if (data.state != 'ok') {
-                $('#div_alert').showAlert({ message: data.result, level: 'danger' });
-                return;
+        success: function (data) {
+            var message = data.result;
+            var level = 'success';
+            if (message.substr(0, 2) === 'KO') {
+                level = 'danger';
             }
-            // window.location.reload();  // si on recharge la fenetre, on perd le message envoyé par test_connexion
+            if (message.length >= 4) {
+                message = message.substr(3);
+            }
+
+            jeedomUtils.showAlert({
+                message: message,
+                level: level
+            })
         }
-    });
+    }
+    domUtils.ajax(paramsAJAX);
 });
 
-$("#table_cmd").sortable({ axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true });
+document.querySelector('#bt_create_info_command').addEventListener('click', function () {
 
-
-$('#bt_create_info_command').on('click', function () {
-
-    bootbox.prompt('OID' + ' ?', function (result) {
-
-        if (result !== null && result != '') {
-
-            $.ajax({// fonction permettant de faire de l'ajax
-                type: "POST", // methode de transmission des données au fichier php
-                url: "plugins/SNMP3/core/ajax/SNMP3.ajax.php", // url du fichier php
-                // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+    jeeDialog.prompt({
+        message: 'OID ?'
+    },
+        function (result) {
+            if (result === null)
+                return
+            if (result == '')
+                result
+            var paramsAJAX = {
+                type: "POST",
+                url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
                 data: {
                     action: "create_command",
-                    id: $('.eqLogicAttr[data-l1key=id]').value(),
+                    id: eqLogicId,
                     id_commande: result,
                     _info: 'X',
                     _action: '',
@@ -197,33 +218,59 @@ $('#bt_create_info_command').on('click', function () {
                 },
                 dataType: 'json',
                 error: function (request, status, error) {
-                    handleAjaxError(request, status, $('#div_DetectBin'));
+                    handleAjaxError(request, status, error)
                 },
-                success: function (data) { // si l'appel a bien fonctionné
+                success: function (data) {
                     if (data.state != 'ok') {
-                        $('#div_alert').showAlert({ message: data.result, level: 'danger' });
-                        return;
+                        jeedomUtils.showAlert({
+                            message: data.result,
+                            level: 'danger'
+                        })
+                        return
                     }
-                    window.location.reload();
+
+                    var message = data.result;
+                    var level = 'success';
+                    if (message.substr(0, 2) === 'KO') {
+                        level = 'danger';
+                        if (message.length >= 4) {
+                            message = message.substr(3);
+                        }
+                    }
+                    else {
+                        message = '{{OID créé}}'
+                    }
+                    jeedomUtils.showAlert({
+                        message: message,
+                        level: level
+                    })
+
+                    if (level === 'success')
+                        window.location.reload();
                 }
-            });
-        }
-    });
+            }
+            domUtils.ajax(paramsAJAX);
+        })
 });
 
-$('#bt_create_action_command').on('click', function () {
 
-    bootbox.prompt('OID' + ' ?', function (result) {
+document.querySelector('#bt_create_action_command').addEventListener('click', function () {
 
-        if (result !== null && result != '') {
-
-            $.ajax({// fonction permettant de faire de l'ajax
-                type: "POST", // methode de transmission des données au fichier php
-                url: "plugins/SNMP3/core/ajax/SNMP3.ajax.php", // url du fichier php
-                // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+    jeeDialog.prompt({
+        message: 'OID ?'
+    },
+        function (result) {
+            if (result === null)
+                return
+            if (result == '')
+                result
+            var paramsAJAX = {
+                type: "POST",
+                url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
                 data: {
                     action: "create_command",
-                    id: $('.eqLogicAttr[data-l1key=id]').value(),
+                    id: eqLogicId,
                     id_commande: result,
                     _info: '',
                     _action: 'X',
@@ -231,34 +278,59 @@ $('#bt_create_action_command').on('click', function () {
                 },
                 dataType: 'json',
                 error: function (request, status, error) {
-                    handleAjaxError(request, status, $('#div_DetectBin'));
+                    handleAjaxError(request, status, error)
                 },
-                success: function (data) { // si l'appel a bien fonctionné
+                success: function (data) {
                     if (data.state != 'ok') {
-                        $('#div_alert').showAlert({ message: data.result, level: 'danger' });
-                        return;
+                        jeedomUtils.showAlert({
+                            message: data.result,
+                            level: 'danger'
+                        })
+                        return
                     }
-                    window.location.reload();
+
+                    var message = data.result;
+                    var level = 'success';
+                    if (message.substr(0, 2) === 'KO') {
+                        level = 'danger';
+                        if (message.length >= 4) {
+                            message = message.substr(3);
+                        }
+                    }
+                    else {
+                        message = '{{Commande de modification de l\'OID créée}}'
+                    }
+                    jeedomUtils.showAlert({
+                        message: message,
+                        level: level
+                    })
+
+                    if (level === 'success')
+                        window.location.reload();
                 }
-            });
-        }
-    });
+            }
+            domUtils.ajax(paramsAJAX);
+        })
 });
 
 
-$('#bt_create_refresh_command').on('click', function () {
+document.querySelector('#bt_create_refresh_command').addEventListener('click', function () {
 
-    bootbox.prompt('OID' + ' ?', function (result) {
-
-        if (result !== null && result != '') {
-
-            $.ajax({// fonction permettant de faire de l'ajax
-                type: "POST", // methode de transmission des données au fichier php
-                url: "plugins/SNMP3/core/ajax/SNMP3.ajax.php", // url du fichier php
-                // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+    jeeDialog.prompt({
+        message: 'OID ?'
+    },
+        function (result) {
+            if (result === null)
+                return
+            if (result == '')
+                result
+            var paramsAJAX = {
+                type: "POST",
+                url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
                 data: {
                     action: "create_command",
-                    id: $('.eqLogicAttr[data-l1key=id]').value(),
+                    id: eqLogicId,
                     id_commande: result,
                     _info: '',
                     _action: '',
@@ -266,16 +338,37 @@ $('#bt_create_refresh_command').on('click', function () {
                 },
                 dataType: 'json',
                 error: function (request, status, error) {
-                    handleAjaxError(request, status, $('#div_DetectBin'));
+                    handleAjaxError(request, status, error)
                 },
-                success: function (data) { // si l'appel a bien fonctionné
+                success: function (data) {
                     if (data.state != 'ok') {
-                        $('#div_alert').showAlert({ message: data.result, level: 'danger' });
-                        return;
+                        jeedomUtils.showAlert({
+                            message: data.result,
+                            level: 'danger'
+                        })
+                        return
                     }
-                    window.location.reload();
+
+                    var message = data.result;
+                    var level = 'success';
+                    if (message.substr(0, 2) === 'KO') {
+                        level = 'danger';
+                        if (message.length >= 4) {
+                            message = message.substr(3);
+                        }
+                    }
+                    else {
+                        message = '{{Commande refresh del\'OID créée}}'
+                    }
+                    jeedomUtils.showAlert({
+                        message: message,
+                        level: level
+                    })
+
+                    if (level === 'success')
+                        window.location.reload();
                 }
-            });
-        }
-    });
+            }
+            domUtils.ajax(paramsAJAX);
+        })
 });

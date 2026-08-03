@@ -37,16 +37,23 @@
         "valeur": "valor"
     },
     "plugins\/SNMP3\/desktop\/js\/SNMP3.js": {
+        "Actions": "Ações",
         "Afficher": "Mostrar",
         "Aucun": "Nenhum",
         "Aucune": "Nenhuma",
         "Choisir une icône": "Escolha um ícone",
+        "Commande de modification de l\\'OID créée": "Ordem de alteração do OID criada",
         "Commande info liée": "Informação relacionada com o comando",
+        "Commande refresh del\\'OID créée": "Comando «refresh» do OID criado",
         "Historiser": "Histórico",
         "Inverser": "Inverter",
         "Max": "Máx.",
         "Min": "Mínimo",
+        "Nom": "Nome",
         "Nom de la commande": "Nome do comando",
+        "OID créé": "OID criado",
+        "Options": "Opções",
+        "Scan": "Digitalização",
         "Supprimer la commande": "Eliminar o pedido",
         "Tester": "Testar",
         "Toutes les 10 minutes": "A cada 10 minutos",
@@ -56,8 +63,10 @@
         "Toutes les heures": "A cada hora",
         "Toutes les jours": "Todos os dias",
         "Toutes les minutes": "A cada minuto",
+        "Type": "Tipo",
         "Unité": "Unidade",
-        "Update": "Atualização"
+        "Update": "Atualização",
+        "Valeur": "Valor"
     },
     "plugins\/SNMP3\/desktop\/modal\/modal.SNMP3.php": {
         "401 - Accès non autorisé": "401 - Acesso não autorizado"

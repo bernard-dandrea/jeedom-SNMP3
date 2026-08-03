@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/01 11:37:05
+// Last Modified : 2026/08/03 11:17:24
 
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
@@ -263,10 +263,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
       <!-- /.tabpanel #eqlogictab-->
       <!-- Onglet des commandes de l equipement-->
-      <div role="tabpanel" class="tab-pane" id="commandtab">
+       <div role="tabpanel" class="tab-pane" id="commandtab">
         <div class="input-group pull-right" style="display:inline-flex;margin-top:5px;">
-          <span class="input-group-btn">
-            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command" title='{{Importer un OID}}'><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
+          <span class="input-group-btn">            
+          <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command"><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
             <a class="btn btn-info btn-xs roundedLeft" id="bt_create_refresh_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande refresh}}</a>
             <a class="btn btn-info btn-xs roundedLeft" id="bt_create_action_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande action}}</a>
           </span>
@@ -274,24 +274,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
         <br><br>
         <div class="table-responsive">
           <table id="table_cmd" class="table table-bordered table-condensed">
-            <thead>
-              <tr>
-                <th class="hidden-xs" style="min-width:50px;width:70px;">ID</th>
-                <th style="min-width:200px;width:350px;">{{Nom}}</th>
-                <th>logicalID</th>
-                <th>{{Type}}</th>
-                <th style="min-width:260px;">{{Options}}</th>
-                <th>{{Scan}}</th>
-                <th>{{Valeur}}
-                </th>
-                <th style="min-width:80px;width:200px;">{{Actions}}</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
           </table>
         </div>
       </div><!-- /.tabpanel #commandtab-->
+
+
 
     </div><!-- /.tab-content -->
   </div><!-- /.eqLogic -->

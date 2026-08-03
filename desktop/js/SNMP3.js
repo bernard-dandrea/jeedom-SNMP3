@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 *
-// Last Modified : 2026/08/03 08:29:05
+// Last Modified : 2026/08/03 11:30:41
 
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -179,7 +179,7 @@ document.querySelector('#bt_TestConnexionSNMP3').addEventListener('click', funct
             var message = data.result;
             var level = 'success';
             if (message.substr(0, 2) === 'KO') {
-                level = 'danger';
+                level = 'warning';
             }
             if (message.length >= 4) {
                 message = message.substr(3);
@@ -232,7 +232,7 @@ document.querySelector('#bt_create_info_command').addEventListener('click', func
                     var message = data.result;
                     var level = 'success';
                     if (message.substr(0, 2) === 'KO') {
-                        level = 'danger';
+                        level = 'warning';
                         if (message.length >= 4) {
                             message = message.substr(3);
                         }
@@ -292,7 +292,7 @@ document.querySelector('#bt_create_action_command').addEventListener('click', fu
                     var message = data.result;
                     var level = 'success';
                     if (message.substr(0, 2) === 'KO') {
-                        level = 'danger';
+                        level = 'warning';
                         if (message.length >= 4) {
                             message = message.substr(3);
                         }
@@ -352,7 +352,7 @@ document.querySelector('#bt_create_refresh_command').addEventListener('click', f
                     var message = data.result;
                     var level = 'success';
                     if (message.substr(0, 2) === 'KO') {
-                        level = 'danger';
+                        level = 'warning';
                         if (message.length >= 4) {
                             message = message.substr(3);
                         }

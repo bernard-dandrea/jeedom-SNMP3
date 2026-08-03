@@ -1,7 +1,7 @@
 <?php
 
 
-// Last Modified : 2026/07/31 16:40:11
+// Last Modified : 2026/08/02 17:49:30
 
 /* This file is part of Jeedom.
  *
@@ -51,7 +51,7 @@ try {
         if (!is_object($eqLogic)) {
             throw new \Exception(__('SNMP3 eqLogic non trouvé', __FILE__) . ' : ' . init('id'));
         }
-        
+
         $SNMP3 = $eqLogic->test_connexion();
         ajax::success($SNMP3);
 

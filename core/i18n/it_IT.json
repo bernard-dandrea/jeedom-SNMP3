@@ -68,12 +68,8 @@
         "Update": "Aggiornamento",
         "Valeur": "Valore"
     },
-    "plugins\/SNMP3\/desktop\/modal\/modal.SNMP3.php": {
-        "401 - Accès non autorisé": "401 - Accesso non autorizzato"
-    },
     "plugins\/SNMP3\/desktop\/php\/SNMP3.php": {
         "401 - Accès non autorisé": "401 - Accesso non autorizzato",
-        "Actions": "Stock",
         "Activer": "Attivare",
         "Ajouter": "Aggiungi",
         "Ajouter une commande action": "Aggiungi un comando di azione",
@@ -92,7 +88,6 @@
         "Icône": "Icona",
         "Importer un OID": "Importare un OID",
         "Mes SNMP3": "I miei SNMP3",
-        "Nom": "Nome",
         "Nom du SNMP3": "Nome dell'SNMP3",
         "Nombre d'essais": "Numero di prove",
         "Objet parent": "Oggetto padre",
@@ -109,13 +104,11 @@
         "Perso9": "Perso9",
         "Rechercher": "Ricercare",
         "Sauvegarder": "Salva",
-        "Scan": "Scansione",
         "Supprimer": "Elimina",
         "Tester la connexion au SNMP3": "Verifica della connessione a SNMP3",
-        "Type": "Tipo",
-        "Valeur": "Valore",
         "Version": "Versione",
-        "Visible": "Visibile"
+        "Visible": "Visibile",
+        "timeout (en millisec)": "timeout (in millisecondi)"
     },
     "plugins\/SNMP3\/plugin_info\/configuration.php": {
         "Non": "No",

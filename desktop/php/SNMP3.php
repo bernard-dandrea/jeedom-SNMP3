@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/03 11:17:24
+// Last Modified : 2026/08/04 07:16:31
 
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
@@ -229,7 +229,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 
               </div>
               <div class="form-group ">
-                <label class="col-sm-4 control-label">timeout (en millisec)</label>
+                <label class="col-sm-4 control-label">{{timeout (en millisec)}}</label>
                 <div class="col-sm-6">
                   <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
                 </div>

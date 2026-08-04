@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/03 11:14:02
+// Last Modified : 2026/08/04 07:21:34
 
 /* This file is part of Jeedom.
  *
@@ -301,7 +301,7 @@ class SNMP3 extends eqLogic
             logSNMP3(self::$_snmp_error_message, 'error');
             return false;
         } else {
-            logSNMP3('getOID ' . ' ' . $_oid . ' --> ' . $result, 'info');
+            logSNMP3('getOID' . ' ' . $_oid . ' --> ' . $result, 'info');
             self::$_snmp_error = false;
             return $result;
         }

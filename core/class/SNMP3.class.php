@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/04 07:21:34
+// Last Modified : 2026/08/07 06:13:32
 
 /* This file is part of Jeedom.
  *
@@ -75,7 +75,7 @@ class SNMP3 extends eqLogic
         //snmpget -v 3 -n "" -u admin_snmp_2024 -a MD5 -A "Camille" -x DES -X "Camille" -l authPriv 192.168.1.5 .1.3.6.1.4.1.6574.1.5.1.0
 
 
-        logSNMP3('test_connexion', 'info');
+        logSNMP3(__FUNCTION__, 'info');
 
         $version = $this->getConfiguration('version', '1');
         if ($version == '3') {
@@ -92,15 +92,13 @@ class SNMP3 extends eqLogic
             );
         } catch (\Throwable $e) {
             $error = __('Erreur création session SNMP', __FILE__) . ' ' . $e->getCode() . ' ' . $e->getMessage();
-            logSNMP3($error);
+            logSNMP3($error, 'warning');
             $error = __('Connexion KO', __FILE__) . ' : ' . $error;
-            // throw new Exception($error);
             return 'KO ' . $error;
         }
         if ($session->getErrno()  != '0') {
             $error = __('Erreur création session SNMP', __FILE__) . ' ' . $session->getErrno() . ' '  . $session->getError();
-            logSNMP3(__('Connexion KO', __FILE__) . ' : '  . $error);
-            // throw new Exception($error);
+            logSNMP3(__('Connexion KO', __FILE__) . ' : '  . $error, 'warning');
             return 'KO ' . $error;
         }
 
@@ -119,17 +117,16 @@ class SNMP3 extends eqLogic
             );
         } catch (\Throwable $e) {
             $error = 'setSecurity ' . __('erreur', __FILE__) . ' ' . $e->getCode() . ' ' . $e->getMessage();
-            logSNMP3($error);
+            logSNMP3($error,'warning');
             $session->close();
             $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
             return 'KO ' . $error;
         }
         if ($session->getErrno()  != '0') {
             $error = 'setSecurity ' .  __('erreur', __FILE__) . ' ' . $session->getErrno() . ' ' . $session->getError();
-            logSNMP3($error);
+            logSNMP3($error,'warning');
             $session->close();
             $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
-            // throw new Exception($error);
             return 'KO ' . $error;
         }
 
@@ -138,19 +135,17 @@ class SNMP3 extends eqLogic
             $sysLocation = $session->get($oid);
         } catch (\Throwable $e) {
             $error = __('Erreur', __FILE__) . ' get ' . $e->getCode() . ' ' . $e->getMessage();
-            logSNMP3($error);
+            logSNMP3($error,'warning');
             $session->close();
             $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
-            // throw new Exception($error);
             return 'KO ' . $error;
         }
 
         if ($session->getErrno()  != '0') {
             $error = __('Erreur', __FILE__) . ' get ' . $session->getErrno() . ' '  . $session->getError();
-            logSNMP3($error);
+            logSNMP3($error,'warning');
             $session->close();
             $error =  __('Connexion KO', __FILE__) . ' : '  . $error;
-            // throw new Exception($error);
             return 'KO ' . $error;
         } else {
             $return = __('Connexion OK', __FILE__) . ' : ' . ' :  sysLocation (1.3.6.1.2.1.1.6.0) -> ' . $sysLocation;
@@ -163,7 +158,7 @@ class SNMP3 extends eqLogic
     public static function loadMIBS()
     {
 
-        logSNMP3('loadMIBS ', 'debug');
+        logSNMP3(__FUNCTION__, 'debug');
 
         // load all MIBS in plugins/SNMP3/data/mibs directory
         $dirPath = __DIR__ . '/../../data/mibs';
@@ -185,7 +180,7 @@ class SNMP3 extends eqLogic
         // load MIBS
         SNMP3::loadMIBS();
 
-        logSNMP3('openSession ', 'debug');
+        logSNMP3(__FUNCTION__, 'debug');
 
         $version = $_eqLogic->getConfiguration('version', '1');
         if ($version == '3') {
@@ -259,7 +254,7 @@ class SNMP3 extends eqLogic
     public static function closeSession()
     {
 
-        logSNMP3('closeSession', 'debug');
+        logSNMP3(__FUNCTION__, 'debug');
         if (self::$_session != null) {
             @self::$_session->close();
         }
@@ -267,7 +262,7 @@ class SNMP3 extends eqLogic
 
     public static function getOID($_oid, $_retry = 1)
     {
-        logSNMP3('getOID' . ' ' . $_oid, 'debug');
+        logSNMP3(__FUNCTION__ . ' ' . $_oid, 'debug');
         self::$_snmp_error = true;
         self::$_snmp_error_message = '';
         if (self::$_session == null) {
@@ -339,7 +334,7 @@ class SNMP3 extends eqLogic
 
     public function create_command($_oid, $info, $action, $refresh)
     {
-        logSNMP3('create_command' . ' ' . $this->getName() . ' OID ' . $_oid . ' Info ' . $info . ' Action ' . $action . ' Refresh ' . $refresh, 'info');
+        logSNMP3(__FUNCTION__ . ' ' . $this->getName() . ' OID ' . $_oid . ' Info ' . $info . ' Action ' . $action . ' Refresh ' . $refresh, 'info');
 
         if (SNMP3::openSession($this)) {
 
@@ -364,7 +359,7 @@ class SNMP3 extends eqLogic
     // crée la commande type info
     {
         if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), $_oid))) {
-            logSNMP3('create_info_command ' . $this->getName() . ' ' . __('commande déjà créée', __FILE__) . ' ' . $_oid, 'info');
+            logSNMP3(__FUNCTION__ . ' ' . $this->getName() . ' ' . __('commande déjà créée', __FILE__) . ' ' . $_oid, 'info');
             return '0';
         }
 
@@ -410,7 +405,7 @@ class SNMP3 extends eqLogic
     {
 
         if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), 'R_' . $_oid))) {
-            logSNMP3('create_refresh_command ' . $this->getName() . ' ' . __('commande refresh déjà créée', __FILE__) . ' ' . 'R_' . $_oid, 'info');
+            logSNMP3(__FUNCTION__ . ' ' . $this->getName() . ' ' . __('commande refresh déjà créée', __FILE__) . ' ' . 'R_' . $_oid, 'info');
             return '0';
         }
 
@@ -455,7 +450,7 @@ class SNMP3 extends eqLogic
     {
 
         if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), 'A_' . $_oid))) {
-            logSNMP3('create_action_command ' . $this->getName() . ' ' . __('commande action déjà créée', __FILE__) . ' ' . 'A_' . $_oid, 'info');
+            logSNMP3(__FUNCTION__ . ' ' . $this->getName() . ' ' . __('commande action déjà créée', __FILE__) . ' ' . 'A_' . $_oid, 'info');
             return '0';
         }
 

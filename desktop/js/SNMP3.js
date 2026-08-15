@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 *
-// Last Modified : 2026/08/03 11:30:41
+// Last Modified : 2026/08/15 11:22:02
 
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ document.querySelector('.eqLogicAttr[data-l1key="configuration"][data-l2key="ver
         });
     });
 
-    
+
 /* Fonction permettant l'affichage des commandes dans l'équipement */
 function addCmdToTable(_cmd) {
 
@@ -194,9 +194,9 @@ document.querySelector('#bt_TestConnexionSNMP3').addEventListener('click', funct
     domUtils.ajax(paramsAJAX);
 });
 
-document.querySelector('#bt_create_info_command').addEventListener('click', function () {
-
+function createCommandFromPrompt(options) {
     var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+
     jeeDialog.prompt({
         message: 'OID ?'
     },
@@ -205,6 +205,7 @@ document.querySelector('#bt_create_info_command').addEventListener('click', func
                 return
             if (result == '')
                 result
+
             var paramsAJAX = {
                 type: "POST",
                 url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
@@ -212,9 +213,9 @@ document.querySelector('#bt_create_info_command').addEventListener('click', func
                     action: "create_command",
                     id: eqLogicId,
                     id_commande: result,
-                    _info: 'X',
-                    _action: '',
-                    _refresh: '',
+                    _info: options._info || '',
+                    _action: options._action || '',
+                    _refresh: options._refresh || '',
                 },
                 dataType: 'json',
                 error: function (request, status, error) {
@@ -233,12 +234,10 @@ document.querySelector('#bt_create_info_command').addEventListener('click', func
                     var level = 'success';
                     if (message.substr(0, 2) === 'KO') {
                         level = 'warning';
-                        if (message.length >= 4) {
-                            message = message.substr(3);
-                        }
+
                     }
-                    else {
-                        message = '{{OID créé}}'
+                    if (message.length >= 4) {
+                        message = message.substr(3);
                     }
                     jeedomUtils.showAlert({
                         message: message,
@@ -251,124 +250,25 @@ document.querySelector('#bt_create_info_command').addEventListener('click', func
             }
             domUtils.ajax(paramsAJAX);
         })
-});
+}
 
+document.querySelector('#bt_create_info_command').addEventListener('click', function () {
+    createCommandFromPrompt({
+        _info: 'X',
+        successMessage: '{{OID créé}}'
+    });
+});
 
 document.querySelector('#bt_create_action_command').addEventListener('click', function () {
-
-    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
-    jeeDialog.prompt({
-        message: 'OID ?'
-    },
-        function (result) {
-            if (result === null)
-                return
-            if (result == '')
-                result
-            var paramsAJAX = {
-                type: "POST",
-                url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
-                data: {
-                    action: "create_command",
-                    id: eqLogicId,
-                    id_commande: result,
-                    _info: '',
-                    _action: 'X',
-                    _refresh: '',
-                },
-                dataType: 'json',
-                error: function (request, status, error) {
-                    handleAjaxError(request, status, error)
-                },
-                success: function (data) {
-                    if (data.state != 'ok') {
-                        jeedomUtils.showAlert({
-                            message: data.result,
-                            level: 'danger'
-                        })
-                        return
-                    }
-
-                    var message = data.result;
-                    var level = 'success';
-                    if (message.substr(0, 2) === 'KO') {
-                        level = 'warning';
-                        if (message.length >= 4) {
-                            message = message.substr(3);
-                        }
-                    }
-                    else {
-                        message = '{{Commande de modification de l\'OID créée}}'
-                    }
-                    jeedomUtils.showAlert({
-                        message: message,
-                        level: level
-                    })
-
-                    if (level === 'success')
-                        window.location.reload();
-                }
-            }
-            domUtils.ajax(paramsAJAX);
-        })
+    createCommandFromPrompt({
+        _action: 'X',
+        successMessage: '{{Commande de modification de l\'OID créée}}'
+    });
 });
 
-
 document.querySelector('#bt_create_refresh_command').addEventListener('click', function () {
-
-    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
-    jeeDialog.prompt({
-        message: 'OID ?'
-    },
-        function (result) {
-            if (result === null)
-                return
-            if (result == '')
-                result
-            var paramsAJAX = {
-                type: "POST",
-                url: 'plugins/SNMP3/core/ajax/SNMP3.ajax.php',
-                data: {
-                    action: "create_command",
-                    id: eqLogicId,
-                    id_commande: result,
-                    _info: '',
-                    _action: '',
-                    _refresh: 'X',
-                },
-                dataType: 'json',
-                error: function (request, status, error) {
-                    handleAjaxError(request, status, error)
-                },
-                success: function (data) {
-                    if (data.state != 'ok') {
-                        jeedomUtils.showAlert({
-                            message: data.result,
-                            level: 'danger'
-                        })
-                        return
-                    }
-
-                    var message = data.result;
-                    var level = 'success';
-                    if (message.substr(0, 2) === 'KO') {
-                        level = 'warning';
-                        if (message.length >= 4) {
-                            message = message.substr(3);
-                        }
-                    }
-                    else {
-                        message = '{{Commande refresh del\'OID créée}}'
-                    }
-                    jeedomUtils.showAlert({
-                        message: message,
-                        level: level
-                    })
-
-                    if (level === 'success')
-                        window.location.reload();
-                }
-            }
-            domUtils.ajax(paramsAJAX);
-        })
+    createCommandFromPrompt({
+        _refresh: 'X',
+        successMessage: '{{Commande refresh del\'OID créée}}'
+    });
 });

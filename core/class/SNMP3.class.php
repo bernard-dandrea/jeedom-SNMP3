@@ -370,7 +370,7 @@ class SNMP3 extends eqLogic
 
         $name = $_oid;
 
-        log::add('SNMP3', 'info', 'create_info_command ' . $this->getName() . ' ' . __('création commande', __FILE__) . ' ' . $name);
+        log::add('SNMP3', 'info', __FUNCTION__ . ' ' . $this->getName() . ' ' . __('création commande', __FILE__) . ' ' . $name);
 
         $cmd = new SNMP3Cmd();
 
@@ -396,7 +396,10 @@ class SNMP3 extends eqLogic
         $cmd->setSubType('string');
 
         $cmd->save();
-        return 'OK ';
+
+        $return = __('Commande info créée', __FILE__) . ' ' . $item_id;
+        log::add('SNMP3', 'debug', __FUNCTION__ . ' ' . $return);
+        return 'OK ' . $return;
     }
 
     private function create_refresh_command($_oid)
@@ -440,7 +443,9 @@ class SNMP3 extends eqLogic
         $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->save();
-        return 'OK ';
+        $return = __('Commande refresh créée', __FILE__) . ' ' . $item_id;
+        log::add('SNMP3', 'debug', __FUNCTION__ . ' ' . $return);
+        return 'OK ' . $return;
     }
 
 
@@ -493,10 +498,10 @@ class SNMP3 extends eqLogic
         $cmd->setSubType('message');
 
         $cmd->save();
-        return 'OK ';
+        $return = __('Commande action créée', __FILE__) . ' ' . $item_id;
+        log::add('SNMP3', 'debug', __FUNCTION__ . ' ' . $return);
+        return 'OK ' . $return;
     }
-
-
 
     public function preInsert()
     {

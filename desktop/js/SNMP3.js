@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 *
-// Last Modified : 2026/08/15 11:22:02
+// Last Modified : 2026/08/15 17:41:13
 
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -155,7 +155,6 @@ function addCmdToTable(_cmd) {
 
 
 function printEqLogic(_eqLogic) {
-
     $SNMP3type = _eqLogic.configuration.type;
 }
 
@@ -198,7 +197,7 @@ function createCommandFromPrompt(options) {
     var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
 
     jeeDialog.prompt({
-        message: 'OID ?'
+        message: 'Numéro du paramètre ?'
     },
         function (result) {
             if (result === null)
@@ -254,21 +253,18 @@ function createCommandFromPrompt(options) {
 
 document.querySelector('#bt_create_info_command').addEventListener('click', function () {
     createCommandFromPrompt({
-        _info: 'X',
-        successMessage: '{{OID créé}}'
+        _info: 'X'
     });
 });
 
 document.querySelector('#bt_create_action_command').addEventListener('click', function () {
     createCommandFromPrompt({
-        _action: 'X',
-        successMessage: '{{Commande de modification de l\'OID créée}}'
+        _action: 'X'
     });
 });
 
 document.querySelector('#bt_create_refresh_command').addEventListener('click', function () {
     createCommandFromPrompt({
-        _refresh: 'X',
-        successMessage: '{{Commande refresh del\'OID créée}}'
+        _refresh: 'X'
     });
 });

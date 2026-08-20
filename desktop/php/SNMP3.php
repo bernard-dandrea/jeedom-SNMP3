@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/04 07:16:31
+// Last Modified : 2026/08/20 16:44:07
 
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
@@ -140,7 +140,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
               <div class="form-group">
                 <label class="col-sm-4 control-label"></label>
                 <div class="col-sm-4">
-                  <a class="btn btn-default " id="bt_TestConnexionSNMP3"><i class="fa fa-cogs"> {{Tester la connexion au SNMP3}}</i></a>
+                  <a class="btn btn-default " id="bt_TestConnexionSNMP3" title="{{Si vous avez modifié un des paramètres de connexion, veuillez d'abord sauvegarder la configuration avant de lancer le test}}"><i class="fa fa-cogs"> {{Tester la connexion au SNMP3}}</i></a>
                 </div>
               </div>
               <div class=" form-group">

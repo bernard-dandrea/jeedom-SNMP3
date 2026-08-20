@@ -54,7 +54,6 @@ try {
 
         $SNMP3 = $eqLogic->test_connexion();
         ajax::success($SNMP3);
-
       
     }
 

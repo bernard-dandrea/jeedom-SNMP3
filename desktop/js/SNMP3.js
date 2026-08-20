@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 *
-// Last Modified : 2026/08/15 17:41:13
+// Last Modified : 2026/08/20 17:43:55
 
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ document.querySelector('.eqLogicAttr[data-l1key="configuration"][data-l2key="ver
         document.querySelectorAll('.snmp_protocole').forEach(el => {
             el.style.display = 'none';
         });
-        document.querySelectorAll('.snmp_' + this.value).forEach(el => {
+        document.querySelectorAll('.snmp_' + this.jeeValue()).forEach(el => {
             el.style.display = '';
         });
     });
@@ -161,7 +161,7 @@ function printEqLogic(_eqLogic) {
 
 document.querySelector('#bt_TestConnexionSNMP3').addEventListener('click', function () {
 
-    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').jeeValue();
 
     var paramsAJAX = {
         type: "POST",
@@ -194,7 +194,7 @@ document.querySelector('#bt_TestConnexionSNMP3').addEventListener('click', funct
 });
 
 function createCommandFromPrompt(options) {
-    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').jeeValue();
 
     jeeDialog.prompt({
         message: 'Numéro du paramètre ?'

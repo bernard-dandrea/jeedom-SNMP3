@@ -1,6 +1,12 @@
 <?php
 
-// Last Modified : 2026/08/20 16:44:07
+// Last Modified : 2026/08/22 18:43:59
+
+/*
+ * Copyright (C) 2026 Bernard Dandrea
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
@@ -93,7 +99,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
         <!-- Paramètres généraux et spécifiques de l'équipement -->
         <form class="form-horizontal">
           <fieldset>
-
             <div class="col-lg-8">
               <legend><i class="fas fa-wrench"></i> {{Paramètres généraux}}</legend>
               <div class="form-group">
@@ -139,14 +144,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label"></label>
-                <div class="col-sm-4">
-                  <a class="btn btn-default " id="bt_TestConnexionSNMP3" title="{{Si vous avez modifié un des paramètres de connexion, veuillez d'abord sauvegarder la configuration avant de lancer le test}}"><i class="fa fa-cogs"> {{Tester la connexion au SNMP3}}</i></a>
+                <div class="col-sm-8">
+                  <a class="btn btn-default cursor" id="bt_TestConnexionSNMP3" title="{{Si vous avez modifié un des paramètres de connexion, veuillez d'abord sauvegarder la configuration avant de lancer le test}}"><i class="fa fa-cogs"></i> {{Tester la connexion au SNMP3}}</a>
                 </div>
               </div>
               <div class=" form-group">
                 <label class="col-sm-4 control-label">{{Version}}</label>
                 <div class="col-sm-6">
-                  <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="version">
+                  <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="version">
                     <option value="0">v1</option>
                     <option value="1">v2c</option>
                     <option value="3">v3</option>
@@ -166,6 +171,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
                   <div class="col-sm-6">
                     <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community">
                   </div>
+                </div>
+
+                <div class="form-group ">
                   <label class="col-sm-4 control-label">community RW</label>
                   <div class="col-sm-6">
                     <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community_rw">
@@ -183,7 +191,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <div class=" form-group">
                   <label class="col-sm-4 control-label">security_level</label>
                   <div class="col-sm-6">
-                    <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_level">
+                    <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_level">
                       <option value="noAuthNoPriv">noAuthNoPriv</option>
                       <option value="authNoPriv">authNoPriv</option>
                       <option value="authPriv">authPriv</option>
@@ -193,7 +201,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <div class=" form-group">
                   <label class="col-sm-4 control-label">auth_protocol</label>
                   <div class="col-sm-6">
-                    <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_protocol">
+                    <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_protocol">
                       <option value="MD5">MD5</option>
                       <option value="SHA">SHA</option>
                     </select>
@@ -208,7 +216,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <div class=" form-group">
                   <label class="col-sm-4 control-label">privacy_protocol</label>
                   <div class="col-sm-6">
-                    <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_protocol">
+                    <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_protocol">
                       <option value="DES">DES</option>
                       <option value="AES">AES</option>
                     </select>
@@ -223,7 +231,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                 <div class="form-group ">
                   <label class="col-sm-4 control-label">context_name</label>
                   <div class="col-sm-6">
-                    <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="context_name" />
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="context_name" />
                   </div>
                 </div>
 
@@ -231,19 +239,19 @@ $eqLogics = eqLogic::byType($plugin->getId());
               <div class="form-group ">
                 <label class="col-sm-4 control-label">{{timeout (en millisec)}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
+                  <input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Nombre d'essais}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retries">
+                  <input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retries">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Icône}}</label>
                 <div class="col-sm-6">
-                  <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="icon">
+                  <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="icon">
                     <option value="none">{{Aucune}}</option>
                     <option value="Perso1">{{Perso1}}</option>
                     <option value="Perso2">{{Perso2}}</option>
@@ -257,18 +265,19 @@ $eqLogics = eqLogic::byType($plugin->getId());
                   </select>
                 </div>
               </div>
+            </div>
           </fieldset>
         </form>
       </div>
 
       <!-- /.tabpanel #eqlogictab-->
       <!-- Onglet des commandes de l equipement-->
-       <div role="tabpanel" class="tab-pane" id="commandtab">
+      <div role="tabpanel" class="tab-pane" id="commandtab">
         <div class="input-group pull-right" style="display:inline-flex;margin-top:5px;">
-          <span class="input-group-btn">            
-          <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command"><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
-            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_refresh_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande refresh}}</a>
-            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_action_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande action}}</a>
+          <span class="input-group-btn">
+            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command"><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
+            <a class="btn btn-info btn-xs" id="bt_create_refresh_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande refresh}}</a>
+            <a class="btn btn-info btn-xs roundedRight" id="bt_create_action_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande action}}</a>
           </span>
         </div>
         <br><br>

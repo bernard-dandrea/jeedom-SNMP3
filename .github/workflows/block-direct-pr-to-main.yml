@@ -1,0 +1,22 @@
+name: Block direct PR to main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérifier la branche source
+        run: |
+          SOURCE_BRANCH="${{ github.head_ref }}"
+
+          if [[ "$SOURCE_BRANCH" != "beta" ]]; then
+            echo "❌ Seules les PR venant de 'beta' sont autorisées vers main."
+            echo "👉 Merci de passer par: feature -> beta -> main"
+            exit 1
+          fi
+
+          echo "✅ PR valide (provient bien de beta)"

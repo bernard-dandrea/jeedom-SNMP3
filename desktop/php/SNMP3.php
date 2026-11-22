@@ -1,4 +1,13 @@
 <?php
+
+// Last Modified : 2026/08/22 18:43:59
+
+/*
+ * Copyright (C) 2026 Bernard Dandrea
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
 }
@@ -90,14 +99,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
         <!-- Paramètres généraux et spécifiques de l'équipement -->
         <form class="form-horizontal">
           <fieldset>
-
             <div class="col-lg-8">
               <legend><i class="fas fa-wrench"></i> {{Paramètres généraux}}</legend>
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Nom du SNMP3}}</label>
                 <div class="col-sm-6">
                   <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display:none;">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'SNMP3}}">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du SNMP3}}">
                 </div>
               </div>
               <div class="form-group">
@@ -136,133 +144,128 @@ $eqLogics = eqLogic::byType($plugin->getId());
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label"></label>
-                <div class="col-sm-4">
-                  <a class="btn btn-default " id="bt_TestConnexionSNMP3" '><i class="fa fa-cogs"> {{Tester la
-                      connexion au SNMP3}}</i></a>
+                <div class="col-sm-8">
+                  <a class="btn btn-default cursor" id="bt_TestConnexionSNMP3" title="{{Si vous avez modifié un des paramètres de connexion, veuillez d'abord sauvegarder la configuration avant de lancer le test}}"><i class="fa fa-cogs"></i> {{Tester la connexion au SNMP3}}</a>
                 </div>
               </div>
               <div class=" form-group">
                 <label class="col-sm-4 control-label">{{Version}}</label>
                 <div class="col-sm-6">
-                  <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="version">
-                    <option value="0">{{v1}}</option>
-                    <option value="1">{{v2c}}</option>
-                    <option value="3">{{v3}}</option>
+                  <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="version">
+                    <option value="0">v1</option>
+                    <option value="1">v2c</option>
+                    <option value="3">v3</option>
                   </select>
                 </div>
               </div>
               <div class="form-group ">
-                <label class="col-sm-4 control-label">{{localhost}}</label>
+                <label class="col-sm-4 control-label">localhost</label>
                 <div class="col-sm-6">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="localhost"">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="localhost">
                 </div>
               </div>
-              
-							<div class=" snmp_protocole snmp_0 snmp_1">
-                  <div class="form-group ">
-                    <label class="col-sm-4 control-label">{{community}}</label>
-                    <div class="col-sm-6">
-                      <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community"">
-                    </div>
-                    <label class="col-sm-4 control-label">{{community RW}}</label>
-                    <div class="col-sm-6">
-                      <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community_rw"">
-                    </div>
-                  </div>  
-              </div>  
-              
-							<div class=" snmp_protocole snmp_3">
-                      <div class=" form-group ">
-                        <label class=" col-sm-4 control-label">{{security_name}}</label>
-                        <div class="col-sm-6">
-                          <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_name" />
-                        </div>
-                      </div>
-                      <div class=" form-group">
-                        <label class="col-sm-4 control-label">{{security_level}}</label>
-                        <div class="col-sm-6">
-                          <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_level">
-                            <option value="noAuthNoPriv">{{noAuthNoPriv}}</option>
-                            <option value="authNoPriv">{{authNoPriv}}</option>
-                            <option value="authPriv">{{authPriv}}</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class=" form-group">
-                        <label class="col-sm-4 control-label">{{auth_protocol}}</label>
-                        <div class="col-sm-6">
-                          <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_protocol">
-                            <option value="MD5">{{MD5}}</option>
-                            <option value="SHA">{{SHA}}</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group ">
-                        <label class="col-sm-4 control-label">{{auth_passphrase}}</label>
-                        <div class="col-sm-6">
-                          <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_passphrase" />
-                        </div>
-                      </div>
-                      <div class=" form-group">
-                        <label class="col-sm-4 control-label">{{privacy_protocol}}</label>
-                        <div class="col-sm-6">
-                          <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_protocol">
-                            <option value="DES">{{DES}}</option>
-                            <option value="AES">{{AES}}</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group ">
-                        <label class="col-sm-4 control-label">{{privacy_passphrase}}</label>
-                        <div class="col-sm-6">
-                          <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_passphrase" />
-                        </div>
-                      </div>
-                      <div class="form-group ">
-                        <label class="col-sm-4 control-label">{{context_name}}</label>
-                        <div class="col-sm-6">
-                          <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="context_name" />
-                        </div>
-                      </div>                      
 
-                    </div>
-                    <div class="form-group ">
-                      <label class="col-sm-4 control-label">{{timeout (en millisec)}}</label>
-                      <div class="col-sm-6">
-                        <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout"">
+              <div class=" snmp_protocole snmp_0 snmp_1">
+                <div class="form-group ">
+                  <label class="col-sm-4 control-label">community</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community">
+                  </div>
                 </div>
-              </div>   
-              
-            
 
-              <div class=" form-group ">
-                  <label class=" col-sm-4 control-label">{{retries}}</label>
-                        <div class="col-sm-6">
-                          <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retries"">
+                <div class="form-group ">
+                  <label class="col-sm-4 control-label">community RW</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="community_rw">
+                  </div>
                 </div>
-              </div>                
-              <div class=" form-group">
-                          <label class="col-sm-4 control-label">{{Icône}}</label>
-                          <div class="col-sm-6">
-                            <select id="sel_icon" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="icon">
-                              <option value="none">{{Aucun}}</option>
-                              <option value="Perso1">{{Perso1}}</option>
-                              <option value="Perso2">{{Perso2}}</option>
-                              <option value="Perso3">{{Perso3}}</option>
-                              <option value="Perso4">{{Perso4}}</option>
-                              <option value="Perso5">{{Perso5}}</option>
-                              <option value="Perso6">{{Perso6}}</option>
-                              <option value="Perso7">{{Perso7}}</option>
-                              <option value="Perso8">{{Perso8}}</option>
-                              <option value="Perso9">{{Perso9}}</option>
-                            </select>
-                          </div>
-                        </div>
+              </div>
 
+              <div class=" snmp_protocole snmp_3">
+                <div class=" form-group ">
+                  <label class=" col-sm-4 control-label">security_name</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_name" />
+                  </div>
+                </div>
+                <div class=" form-group">
+                  <label class="col-sm-4 control-label">security_level</label>
+                  <div class="col-sm-6">
+                    <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="security_level">
+                      <option value="noAuthNoPriv">noAuthNoPriv</option>
+                      <option value="authNoPriv">authNoPriv</option>
+                      <option value="authPriv">authPriv</option>
+                    </select>
+                  </div>
+                </div>
+                <div class=" form-group">
+                  <label class="col-sm-4 control-label">auth_protocol</label>
+                  <div class="col-sm-6">
+                    <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_protocol">
+                      <option value="MD5">MD5</option>
+                      <option value="SHA">SHA</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group ">
+                  <label class="col-sm-4 control-label">auth_passphrase</label>
+                  <div class="col-sm-6">
+                    <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="auth_passphrase" />
+                  </div>
+                </div>
+                <div class=" form-group">
+                  <label class="col-sm-4 control-label">privacy_protocol</label>
+                  <div class="col-sm-6">
+                    <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_protocol">
+                      <option value="DES">DES</option>
+                      <option value="AES">AES</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group ">
+                  <label class="col-sm-4 control-label">privacy_passphrase</label>
+                  <div class="col-sm-6">
+                    <input type="password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="privacy_passphrase" />
+                  </div>
+                </div>
+                <div class="form-group ">
+                  <label class="col-sm-4 control-label">context_name</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="context_name" />
+                  </div>
+                </div>
 
-
-
-                      </div>
+              </div>
+              <div class="form-group ">
+                <label class="col-sm-4 control-label">{{timeout (en millisec)}}</label>
+                <div class="col-sm-6">
+                  <input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label">{{Nombre d'essais}}</label>
+                <div class="col-sm-6">
+                  <input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retries">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label">{{Icône}}</label>
+                <div class="col-sm-6">
+                  <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="icon">
+                    <option value="none">{{Aucune}}</option>
+                    <option value="Perso1">{{Perso1}}</option>
+                    <option value="Perso2">{{Perso2}}</option>
+                    <option value="Perso3">{{Perso3}}</option>
+                    <option value="Perso4">{{Perso4}}</option>
+                    <option value="Perso5">{{Perso5}}</option>
+                    <option value="Perso6">{{Perso6}}</option>
+                    <option value="Perso7">{{Perso7}}</option>
+                    <option value="Perso8">{{Perso8}}</option>
+                    <option value="Perso9">{{Perso9}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </fieldset>
         </form>
       </div>
@@ -272,41 +275,26 @@ $eqLogics = eqLogic::byType($plugin->getId());
       <div role="tabpanel" class="tab-pane" id="commandtab">
         <div class="input-group pull-right" style="display:inline-flex;margin-top:5px;">
           <span class="input-group-btn">
-            <a class="btn btn-info btn-xs roundedLeft " id="bt_create_info_command" title=' {{Importer un paramètre}}'><i class="fas fa-plus-circle"> {{Importer un
-                OID}}</i></a>
-                  <a class="btn btn-info btn-xs roundedLeft " id="bt_create_refresh_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande refresh}}
-                    <a class="btn btn-info btn-xs roundedLeft " id="bt_create_action_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande action}}
-                    </a>
-                    </span>
-                </div>
-                <br><br>
-                <div class="table-responsive">
-                  <table id="table_cmd" class="table table-bordered table-condensed">
-                    <thead>
-                      <tr>
-                        <th class="hidden-xs" style="min-width:50px;width:70px;">ID</th>
-                        <th style="min-width:200px;width:350px;">{{Nom}}</th>
-                        <th>{{logicalID}}</th>
-                        <th>{{Type}}</th>
-                        <th style="min-width:260px;">{{Options}}</th>
-                        <th>{{Scan}}</th>
-                        <th>{{Valeur}}
-                        </th>
-                        <th style="min-width:80px;width:200px;">{{Actions}}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                  </table>
-                </div>
-              </div><!-- /.tabpanel #commandtab-->
+            <a class="btn btn-info btn-xs roundedLeft" id="bt_create_info_command"><i class="fas fa-plus-circle"></i> {{Importer un OID}}</a>
+            <a class="btn btn-info btn-xs" id="bt_create_refresh_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande refresh}}</a>
+            <a class="btn btn-info btn-xs roundedRight" id="bt_create_action_command"><i class="fas fa-plus-circle"></i> {{Ajouter une commande action}}</a>
+          </span>
+        </div>
+        <br><br>
+        <div class="table-responsive">
+          <table id="table_cmd" class="table table-bordered table-condensed">
+          </table>
+        </div>
+      </div><!-- /.tabpanel #commandtab-->
 
-            </div><!-- /.tab-content -->
-      </div><!-- /.eqLogic -->
-    </div><!-- /.row row-overflow -->
 
-    <!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, id_du_plugin) -->
-    <?php
-    include_file('desktop', 'SNMP3', 'js', 'SNMP3');
-    include_file('core', 'plugin.template', 'js');
-    ?>
+
+    </div><!-- /.tab-content -->
+  </div><!-- /.eqLogic -->
+</div><!-- /.row row-overflow -->
+
+<!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, id_du_plugin) -->
+<?php
+include_file('desktop', 'SNMP3', 'js', 'SNMP3');
+include_file('core', 'plugin.template', 'js');
+?>

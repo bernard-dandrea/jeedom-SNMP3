@@ -7,8 +7,8 @@
     "plugins\/SNMP3\/core\/class\/SNMP3.class.php": {
         " -> nouvel essai": " -> new try",
         "Activation du cron de %1$s": "Enabling the %1$s cron job",
-        "Commande action créée": "Command action created",
-        "Commande info créée": "Command info created",
+        "Commande action créée": "Action command created",
+        "Commande info créée": "Info command created",
         "Commande refresh créée": "Refresh command created",
         "Connexion KO": "Connection Failed",
         "Connexion OK": "Login OK",
